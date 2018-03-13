@@ -15,11 +15,11 @@ class Solution(object):
             return
 
         sp, fp = head, head
-        while fp:
-            fp = fp.next
+        while fp and fp.next:
+            fp = fp.next.next
             if fp:
-                fp, sp = fp.next, sp.next
-        
+                sp = sp.next
+
         h1, h2 = head, sp.next
         # link list break
         sp.next = None
@@ -41,3 +41,7 @@ class Solution(object):
 # 1. Don't return anything because head won't change
 # 2. Line 25 important, don't forget to BREAK the list
 # 3. mid point approach does not work for empty list
+
+# line 17 block, sp stays at the end of link list 1
+# fp stops at the last element of link list
+# best way to get middle point
