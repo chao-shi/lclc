@@ -13,12 +13,12 @@ class Solution(object):
         # Passes the insideBucket function
         load_factor = 5
         bucket_num = len(nums) / load_factor + 1
-        buckets = [set() for i in range(bucket_num)]
+        buckets = [[] for i in range(bucket_num)]
         bucket_gap = float(upper-lower) / float(bucket_num)
         
         for num in nums:
             bucket_idx = int(float(num - lower) / bucket_gap)
-            buckets[bucket_idx].add(num)
+            buckets[bucket_idx].append(num)
         
         maxgap = None
         last_nonempty = None
@@ -33,10 +33,7 @@ class Solution(object):
     
     def insideBucket(self, nums):
         nums = sorted(nums)
-        maxgap = 0
+        maxgap = None
         for i in range(1, len(nums)):
             maxgap = max(maxgap, nums[i] - nums[i-1])
         return maxgap
-
-# Loop 25 is O(bucket_size) which is O(N)
-# 66ms, beats 44%
