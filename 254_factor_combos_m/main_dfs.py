@@ -20,5 +20,5 @@ class Solution(object):
         recur(n, [])
         return res
 
-# Why do you think this recursion does not have the problem of recomputing.
-# The help of factors
+# This approach does have the problem of recomputing, but still passes OJ
+# To check, add a counter for how much each remain_n is called.
