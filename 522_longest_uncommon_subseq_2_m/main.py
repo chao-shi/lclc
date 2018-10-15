@@ -28,5 +28,8 @@ class Solution(object):
                     return len(s)
         return -1
                 
-        
+# The answer must be a word
+# Why: if the answer is not a word, and it is uncommon, the super sequence must also be uncommon, thus, the word is a more
+# optimial solution.
+
 # Sort strings by length reverse, the candidate will be unique string and it is not the sub seq of any string longer than it.
