@@ -1,0 +1,23 @@
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, children):
+        self.val = val
+        self.children = children
+"""
+class Solution(object):
+    def postorder(self, root):
+        """
+        :type root: Node
+        :rtype: List[int]
+        """
+        self.res = []
+        def recur(root):
+            if root:
+                for ch in root.children:
+                    recur(ch)
+                self.res.append(root.val)
+        
+        recur(root)
+        return self.res
+        
