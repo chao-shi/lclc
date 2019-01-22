@@ -4,19 +4,16 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        m = [0, 0]
+        m = [0] * (len(s) + 1)
         for i in range(1, len(s)):
-            if s[i] == ')' and s[i-1] == '(':
-                m.append(m[i-1] + 2)
-            elif s[i] == ')':
-                # ((???)) first element is j index
+            if s[i] == ')':
                 j = i - m[i] - 1
                 if j >= 0 and s[j] == '(':
-                    m.append(m[i] + 2 + m[j])
-                else:
-                    m.append(0)
-            else:
-                m.append(0)
+                    m[i+1] = m[i] + 2 + m[j]
+                    continue
+            m[i + 1] = 0
+        print m
         return max(m)
-    
-# careful line 15, need to add m[j]
+
+# j >= 0 check required
+# careful line 12, need to add m[j]
