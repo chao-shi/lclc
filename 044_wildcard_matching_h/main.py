@@ -15,11 +15,11 @@ class Solution(object):
         for i in range(1, len(s) + 1):
             for j in range(1, len(p) + 1):
                 if s[i-1] == p[j-1]:
-                    m[i][j] = m[i][j] or m[i-1][j-1]
+                    m[i][j] = m[i-1][j-1]
                 elif p[j-1] == '?':
-                    m[i][j] = m[i][j] or m[i-1][j-1]
+                    m[i][j] = m[i-1][j-1]
                 elif p[j-1] == '*':
-                    m[i][j] = m[i][j] or m[i][j-1] or m[i-1][j]
+                    m[i][j] = m[i][j-1] or m[i-1][j]
         return m[len(s)][len(p)]
 
 # Read more carefully. * not a * here 
