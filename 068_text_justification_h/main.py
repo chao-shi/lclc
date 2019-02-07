@@ -20,7 +20,7 @@ class Solution(object):
                 line = " ".join(words[left:right])
                 lines.append(line + " " * (maxWidth - len(line)))
             else:
-                spaces = remain + cnt
+                spaces = remain + wcnt
                 more_spaces_num = spaces % (wcnt - 1)
                 spaces_per_seg = spaces / (wcnt - 1)
                 
