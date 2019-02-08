@@ -14,7 +14,7 @@ class Solution(object):
                 start[k] += 1
 
 # More generaal case [0,4] example
-# 0, 0, 1, 3, 3, 4, 4 is in place
+# 0, 0, 1, 3, 3, 1, 4, 4 is in place
 # next element is 1
 
 # swap 1 with first 4 and increment start of 4
