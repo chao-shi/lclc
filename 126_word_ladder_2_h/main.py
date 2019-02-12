@@ -28,8 +28,6 @@ class Solution(object):
             for cand in cands:
                 wordList.remove(cand)
         
-        if len(cands) == 0:
-            return []
         return [path for path in paths if path[-1] == endWord]
     
 # Very brilliant idea by me
