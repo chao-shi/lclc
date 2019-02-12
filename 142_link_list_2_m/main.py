@@ -12,11 +12,9 @@ class Solution(object):
         """
         sp, fp = head, head
         meet = None
-        while fp:
-            fp = fp.next
-            if fp:
-                fp = fp.next
-                sp = sp.next
+        while fp and fp.next and fp.next.next:
+            fp = fp.next.next
+            sp = sp.next
             
             if sp == fp:
                 meet = sp
