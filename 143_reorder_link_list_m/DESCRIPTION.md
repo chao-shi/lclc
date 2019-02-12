@@ -5,3 +5,4 @@ You must do this in-place without altering the nodes' values.
 
 For example,
 Given {1,2,3,4}, reorder it to {1,4,2,3}.
+{1, 2, 3, 4, 5}, reorder to {1, 5, 2, 4, 3}

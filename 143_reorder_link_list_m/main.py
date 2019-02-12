@@ -10,25 +10,31 @@ class Solution(object):
         :type head: ListNode
         :rtype: void Do not return anything, modify head in-place instead.
         """
-        if not head:
-            # mid point not valid for empty list
+        if not head or not head.next:
+            # When part of the list can be empty. easier to pick separately
             return
 
-        sp, fp = head, head
-        while fp and fp.next:
-            fp = fp.next.next
+        sprev, sp, fp = None, head, head
+        while fp:
+            fp = fp.next
             if fp:
-                sp = sp.next
+                fp = fp.next
+                sprev, sp = sp, sp.next
 
-        h1, h2 = head, sp.next
-        # link list break
-        sp.next = None
+        # sp is starting of second half
+        # 1, 2, 3 sp is 2
+        # 1, 2, 3, 4, sp is 3
+        
+        # L1 break
+        sprev.next = None
 
         # Reverse list 2
-        p, prev = h2, None
+        p, prev = sp, None
         while p:
             p.next, prev, p = prev, p, p.next
+
         h2 = prev
+        h1 = head
 
         dh = ListNode(-1)
         tail = dh
