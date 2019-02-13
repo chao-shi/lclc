@@ -9,9 +9,10 @@ class Solution(object):
             mid = (li + hi)/2
             if li == hi or nums[li] < nums[hi]:
                 return nums[li]
-            elif nums[li] == nums[hi] == nums[mid]:
-                li += 1
             elif nums[li] > nums[mid]:
                 hi = mid
+            elif nums[mid] > nums[hi]:
+                li = mid + 1
             else:
-                li = mid + 1                
+                # all equal and li != hi
+                li += 1
