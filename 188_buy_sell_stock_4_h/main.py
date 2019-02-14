@@ -17,7 +17,7 @@ class Solution(object):
         for i in range(0, len(states), 2):
             states[i] = -prices[0]
         
-        for i in range(len(prices)):
+        for i in range(1, len(prices)):
             newstates = [0] * (k * 2)
             for j in range(len(newstates)):
                 if j == 0:
