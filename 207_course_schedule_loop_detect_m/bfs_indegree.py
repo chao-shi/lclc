@@ -5,23 +5,25 @@ class Solution(object):
         :type prerequisites: List[List[int]]
         :rtype: bool
         """
-        preq_cnt = {}
-        precede_map = {}
+        preq_cnt = collections.defaultdict(int)
+        dependon_map = collections.defaultdict(set)
         for a, b in prerequisites:
-            preq_cnt[a] = preq_cnt.get(a, 0) + 1
-            precede_map.setdefault(b, []).append(a)
+            preq_cnt[a] += 1
+            dependon_map[b].add(a)
 
         # no need for set, finer controller for insertion
-        no_deps = [i for i in range(numCourses) if preq_cnt.get(i, 0) == 0]
+        no_deps = collections.deque()
+        no_deps.extend([i for i in range(numCourses) if preq_cnt[i] == 0])
         seq = []
         
         while no_deps:
-            top = no_deps.pop()
-            seq.append(top)
-            for after in precede_map.get(top, []):
-                preq_cnt[after] -= 1
-                if preq_cnt[after] == 0:
-                    no_deps.append(after)
+            for _ in range(len(no_deps)):
+                no_dep = no_deps.pop()
+                for after in dependon_map.get(no_dep, []):
+                    preq_cnt[after] -= 1
+                    if preq_cnt[after] == 0:
+                        no_deps.append(after)                
+                seq.append(no_dep)
         
         return len(seq) == numCourses
 
