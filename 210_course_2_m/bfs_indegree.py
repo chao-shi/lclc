@@ -3,7 +3,7 @@ class Solution(object):
         """
         :type numCourses: int
         :type prerequisites: List[List[int]]
-        :rtype: List[int]
+        :rtype: bool
         """
         preq_cnt = {}
         precede_map = {}
@@ -26,3 +26,6 @@ class Solution(object):
         if len(seq) != numCourses:
             return []
         return seq
+
+# Not strictly BFS here because we pop and append at the same end. 
+# Which end does not matter, no_deps is more like a set rather than queue
