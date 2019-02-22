@@ -8,9 +8,7 @@ class Solution(object):
             res = ["a"]
             for i in range(1, len(str)):
                 chr_ord = ord('a') + ord(str[i]) - ord(str[0])
-                if chr_ord > ord('z'):
-                    chr_ord -= 26
-                elif chr_ord < ord('a'):
+                if chr_ord < ord('a'):
                     chr_ord += 26
                 res.append(chr(chr_ord))
             return "".join(res)
