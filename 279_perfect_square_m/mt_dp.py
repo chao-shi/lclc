@@ -17,6 +17,5 @@ class Solution(object):
         
         return recur(n)
         
-# In theory will be faster in early pruning, but also expensive in stack calls
-# But OJ is slower with 7000+ ms.
-# Slower than main.py
+# Not faster, this question is not to return one possible combination so line 15 has no way to terminate early
+# recur(n) will always call recur(n-1), same as DP
