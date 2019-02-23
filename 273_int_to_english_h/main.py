@@ -15,10 +15,13 @@ class Solution(object):
                 res.extend([map_0_20[h], "Hundred"])
             tens = num % 100
             t, d = tens / 10, tens % 10
-            if tens < 20:
+            if 0 < tens < 20:
                 res.append(map_0_20[tens])
             else:
-                res.extend([map_10s[t], map_0_20[d]])
+                if t > 0:
+                    res.append(map_10s[t])
+                if d > 0:
+                    res.append(map_0_20[d])
             return res
         
         if num == 0:
@@ -40,6 +43,5 @@ class Solution(object):
             res.extend(under_thousand(t) + ["Thousand"])
         res.extend(under_thousand(d))
         
-        return " ".join(res).replace("  ", " ").strip()
-    
+        return " ".join(res)
 # Line 43, strip multiple internal double space
