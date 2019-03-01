@@ -4,33 +4,30 @@ class Solution(object):
         :type grid: List[List[str]]
         :rtype: int
         """
-        if not grid:
+        if not grid or not grid[0]:
             return 0
-
-        n, m = len(grid), len(grid[0])
-        enermies = {}
-
-        for i in range(n):
-            row = grid[i]
-            idxw = [-1] + [ii for ii, ch in enumerate(row) if ch == 'W'] + [m]
-
-            for j in range(1, len(idxw)):
-                cnt = row[idxw[j-1] + 1: idxw[j]].count('E')
-                for k in range(idxw[j-1] + 1, idxw[j]):
-                    if row[k] == '0':
-                        enermies[(i, k)] = cnt
+        m, n = len(grid), len(grid[0])
+        e_cnt = [[0] * n for _ in range(m)]
         
-        maxv = 0
-
         for i in range(m):
-            col = [grid[ii][i] for ii in range(n)]
-            idxw = [-1] + [ii for ii, ch in enumerate(col) if ch == 'W'] + [n]
-
-            for j in range(1, len(idxw)):
-                cnt = col[idxw[j-1] + 1: idxw[j]].count('E')
-                for k in range(idxw[j-1] + 1, idxw[j]):
-                    if col[k] == '0':
-                        enermies[(k, i)] = enermies.get((k, i), 0) + cnt
-                        maxv = max(maxv, enermies[(k, i)], maxv)
-                        
-        return maxv
+            for start, end, diff in [(0, n, 1), (n-1, -1, -1)]:
+                cnt = 0
+                for j in range(start, end, diff):
+                    if grid[i][j] == 'W':
+                        cnt = 0
+                    elif grid[i][j] == 'E':
+                        cnt += 1
+                    else:
+                        e_cnt[i][j] += cnt
+        
+        for j in range(n):
+            for start, end, diff in [(0, m, 1), (m-1, -1, -1)]:
+                cnt = 0
+                for i in range(start, end, diff):
+                    if grid[i][j] == 'W':
+                        cnt = 0
+                    elif grid[i][j] == 'E':
+                        cnt += 1
+                    else:
+                        e_cnt[i][j] += cnt
+        return max(map(max, e_cnt))
