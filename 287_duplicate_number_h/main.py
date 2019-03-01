@@ -14,6 +14,11 @@ class Solution(object):
         
         # Since 4 is the first recuring number and the 3, 1 are its index
         # the index is different, so 4 is the duplicated numbers (both nums[1] and nums[3] are 4)
+
+        # Why we have to start from nums[0], nums[0] can never be the meeting point. Because no element
+        # has zero value.
+
+        # Therefore any two first meeting elements are guaranteed to have predecessor and are different predecessor.
         
         def next(n):
             return nums[n]
