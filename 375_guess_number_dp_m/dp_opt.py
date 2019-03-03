@@ -8,6 +8,7 @@ class Solution(object):
         for j in range(2, n + 1):
             m[j-1][j] = j-1
             for i in range(j - 2, 0, -1):
+                m[i][j] = min(i + m[i+1][j], j + m[i][j-1])
                 m[i][j] = min([k + max(m[i][k-1], m[k+1][j]) for k in range(i+1, j)])
         return m[1][n]
 

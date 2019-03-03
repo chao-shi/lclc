@@ -12,7 +12,7 @@ class Solution(object):
         for diff in range(2, n):
             for i in range(1, n - diff + 1):
                 j = i + diff
-                minv = sys.maxint
+                minv = max(i + m[i+1][j], j + m[i][j-1])
                 for k in range(i+1, j):
                     minv = min(minv, k + max(m[i][k-1], m[k+1][j]))
                 m[i][j] = minv
