@@ -1,9 +1,3 @@
-# Key idea
-# What is the end of nested object: ']'
-# What is the end of integer, a little harder, need to look one step ahead on digits
-# Careful for the case of negative numbers
-# Interesting thing is that no need to process comma in separate logic
-
 # """
 # This is the interface that allows for creating nested lists.
 # You should not implement it, or speculate about its implementation
@@ -53,32 +47,25 @@ class Solution(object):
         :type s: str
         :rtype: NestedInteger
         """
-        stack = [NestedInteger()]
-        flag = 1
-
-        for i in range(len(s)):
-            ch = s[i]
-            if ch == '[':
-                stack.append(NestedInteger())
-            
-            elif ch == ']':
-                top = stack.pop()
-                stack[-1].add(top)
-            
-            elif ch == '-':
-                flag = -1
-            
-            elif ch.isdigit():
-                if stack and stack[-1].isInteger():
-                    # Careful here, flag * int(ch)
-                    stack[-1].setInteger(stack[-1].getInteger() * 10 + flag * int(ch))
-                else:
-                    stack.append(NestedInteger(flag * int(ch)))
-                
-                # End of integer
-                if i == len(s) - 1 or not s[i+1].isdigit():
-                    top = stack.pop()
-                    stack[-1].add(top)
-                    flag = 1
+        tokens = re.split("([,|\[|\]])", s)
+        tokens = filter(lambda x:x and x!=',', tokens)
         
-        return stack[-1].getList()[0]
+        stack = []
+        last = None
+        for token in tokens:
+            if token.isdigit() or (token[0] == '-' and token[1:].isdigit()):
+                ni = NestedInteger(int(token))
+                if stack:
+                    stack[-1].add(ni)
+                else:
+                    last = ni
+            elif token == '[':
+                nl = NestedInteger()
+                if stack:
+                    stack[-1].add(nl)
+                stack.append(nl)
+            else:
+                last = stack.pop()
+        return last
+
+# line 68 and line 61, use last to keep record of popped element, last popped element is the answer
