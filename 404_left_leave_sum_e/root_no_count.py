@@ -11,13 +11,14 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        def recur(root):
-            if root == None:
+        def recur(root, isLeftChild):
+            if not root:
                 return 0
-            sum = recur(root.right)
-            if root.left != None and root.left.left == root.left.right == None:
-                sum += root.left.val
+            elif root.left == None and root.right == None and isLeftChild:
+                return root.val
             else:
-                sum += recur(root.left)
-            return sum
-        return recur(root)
+                return recur(root.left, True) + recur(root.right, False)
+        
+        return recur(root, False)
+    
+# One-node tree count as left leave
