@@ -30,13 +30,7 @@ class Solution(object):
                     break
             # print prefix
 
-            cands = []
-            # case 1 exact match needed
-            if len(prefix) < i:
-                cands.append(word)
-            # case 2 prefix match
-            else:
-                cands.extend(prefix_m.get(prefix, []))
+            cands =prefix_m.get(prefix, [])
             
             for cand in cands:
                 lines[i] = cand
