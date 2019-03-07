@@ -33,7 +33,7 @@ class Solution(object):
             else:
                 offset -= 1
                 row_start = next_row_start(num)
-                for ch in range(row_start, row_start + 10):
+                for ch in range(row_start, num * 10 + 10):
                     target, offset = recur(ch, offset)                    
                     if target != None:
                         return target, offset
