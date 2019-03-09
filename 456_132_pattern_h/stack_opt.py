@@ -4,12 +4,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        stack, v_k = [], None
+        max2 = None
+        stack = []
         for i in range(len(nums) - 1, -1, -1):
-            if v_k > nums[i]:
+            if max2 > nums[i]:
                 return True
+
             while stack and stack[-1] < nums[i]:
-                v_k = max(v_k, stack.pop())
+                max2 = stack.pop()
             stack.append(nums[i])
         return False
             
