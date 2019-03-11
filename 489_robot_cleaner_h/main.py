@@ -62,25 +62,24 @@ class Solution(object):
             # no matter result of the wall
             return dir_v[self.d:] + dir_v[:self.d]
 
-        # Test i_1, j_1 from standing at i, j, i_1, j_1 is not visited yet.
-        def recur(i_1, j_1, i, j):
-            if (i_1, j_1) not in cleaned:
-                orient(i_1, j_1, i, j)
-                if robot.move():
-                    robot.clean()
-                    cleaned.add((i_1, j_1))
-                    for v in gen_direction():
-                        i_2, j_2 = i_1 + v[0], j_1 + v[1]
-                        recur(i_2, j_2, i_1, j_1)
-                    # Important to move back
-                    orient(i, j, i_1, j_1)
-                    robot.move()
+        # clean i, j, moved from i_prev, j_prev
+        def recur(i, j, i_prev, j_prev):
+            robot.clean()
+            cleaned.add((i, j))
+            for v in gen_direction():
+                i_1, j_1 = i + v[0], j + v[1]
+                if (i_1, j_1) not in cleaned:
+                    orient(i_1, j_1, i, j)
+                    if robot.move():
+                        recur(i_1, j_1, i, j)
+            orient(i_prev, j_prev, i, j)
+            robot.move()
         
         robot.clean()
         recur(0, 1, 0, 0)
         recur(1, 0, 0, 0)
         recur(0, -1, 0, 0)
-        recur(-1, 0, 0, 0)        
+        recur(-1, 0, 0, 0)     
         
 # Key point is to use the index, fit the orient function is very universal.
 # This approach is very efficient
@@ -92,3 +91,5 @@ class Solution(object):
 # 0 -> 01
 #      1
 # Will go left.
+
+# The turning is very efficient !!!! Check if yourself
