@@ -11,30 +11,21 @@ class Solution(object):
         :type s: str
         :rtype: TreeNode
         """
-        def recur(s, i):
-            ii = i
-            while i < len(s) and (s[i].isdigit() or s[i] == '-'):
-                i += 1
+        tokens = filter(lambda x:x, re.split("([\(|\)])", s))
+        tokens = ["("] + tokens + [")"]
 
-            root = TreeNode(int(s[ii:i]))
-            
-            if i < len(s) and s[i] == '(':
-                i += 1
-                i, left = recur(s, i)
-                i += 1
-                root.left = left
-                
-            if i < len(s) and s[i] == '(':
-                i += 1
-                i, right = recur(s, i)
-                i += 1
-                root.right = right
-            
-            return i, root
+        def recur(i):
+            if i > len(tokens) or tokens[i] !='(':
+                return None, i
+            elif tokens[i+1] == ')':
+                return None, i+2
+            else:
+                rootval = int(tokens[i+1])
+                root = TreeNode(rootval)
+                left, i = recur(i+2)
+                right, i = recur(i)
+                root.left, root.right = left, right
+                # skip ")"
+                return root, i + 1
         
-        if not s:
-            return None
-        _, root = recur(s, 0)
-        return root
-    
-# Negative numbers
+        return recur(0)[0]
