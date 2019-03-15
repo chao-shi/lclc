@@ -17,7 +17,7 @@ class Solution(object):
             j -= 1
         digits[i-1], digits[j] = digits[j], digits[i-1]
         
-        digits = digits[:i] + sorted(digits[i:])
+        digits = digits[:i] + digits[i:][::-1]
         
         num = int("".join(digits))
         
