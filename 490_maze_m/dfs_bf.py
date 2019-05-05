@@ -47,15 +47,16 @@ class Solution(object):
                 for cand in roll_4d(x, y):
                     if recur(cand[0], cand[1]):
                         return True
+                visited.remove((x, y))
                 return False
-                # Don't remove it from visited !!!!
-                # If we do it, it will slow down significantly but there won't be infinit loop
-                
+                # Remove from visited 
+                # Then we are enumerating all the paths, this will go exponentially
         
         # Pre-check quickly
         if not wall_next(destination[0], destination[1]):
             return False
         
         return recur(start[0], start[1])
-        
+
+# Theoretically correct, not exponential algorithm
         

@@ -58,3 +58,11 @@ class Solution(object):
                     pq.put((new_steps, ) + cand)
                     visited[cand] = new_steps
         return -1
+
+# Dijkstra algorithm is used to calculate shortest path for weighted gragh.
+# In this question, I'm skipping all the middle point where the ball cannot stop.
+# So it is essentially a weighted graph. 
+# Bellman ford or dijkstra algorithm should be considered.
+
+# If we have to use BFS, then each node must be any point. Then the edge is always distance 
+# 1, which makes it un-weighted graph
