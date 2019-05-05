@@ -15,10 +15,14 @@ class Solution(object):
             elif i >= len(candidates):
                 return
             else:
-                nums.append(candidates[i])
-                recur(i, nums, sumv + candidates[i])
-                nums.pop()
-                recur(i + 1, nums, sumv)
+                cnt = 0
+                while sumv <= target:
+                    recur(i + 1, nums, sumv)
+                    nums.append(candidates[i])
+                    sumv += candidates[i]
+                    cnt += 1
+                for _ in range(cnt):
+                    nums.pop()
         recur(0, [], 0)
         return res
 
