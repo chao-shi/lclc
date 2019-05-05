@@ -27,7 +27,7 @@ class Solution(object):
         """
         self.matrix = ["0" * self.n for i in range(self.m)]
         
-
+# SLOW solution, also high memory footage
 
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(n_rows, n_cols)
