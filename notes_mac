@@ -1,0 +1,416 @@
+124: max(0)
+
+126, 127: BFS with metadata. 
+special case, when begin=end and end not in dictionary.
+target word is on the frontier, but not valid
+
+128: one side union 
+set pop
+
+129: none case inside function
+
+140: stage 3, break one LL into two
+
+141/142: rewrite, condition update to fp and fp.next != None and fp.next.next != None, will never
+quit if there is loop there. Blindless move fp two step inside loop
+
+143: fp, sp, old approach of moving. 
+sp, start of second half, first half size int(n/2)
+Easier to take out the case when len(LL) < 2
+
+Basic idea, break into two separate link list, n/2, n - n/2, and reverse the second,
+merge two then. It is tricky if first half link list is empty. 
+
+201: mask the last n digits to be zero
+(num >> n) << n
+
+another approach 
+num & ~(1 << n - 1) 
+
+202: flyod approach, break if reaches 1 or sp == fp
+
+205: len(set(zip(s, t))) == len(set(s)) == len(set(t))
+or double map/index map approach
+
+207: DFS go inversely along dependency, ie, go from you to your prerequisite. This way 
+topo sorting close with no prerequisite element first
+
+Also link removal algorithm, keep degree of prerequisite and map of items depending on it.
+Once remove the element, notify items depending on it to decrese there prerequisite degree
+
+227: operator stack, priority higher on top, lower priority pops higher
++/- pops */
+
+228: just a specific case of merge interval, each number n can be thought as [n, n]
+
+229: keep two leading ballots
+
+230: inorder generator
+
+231: bit oper
+
+232: upside down function, if stack_pop is empty
+
+233: revisit
+
+236: single return, main.py still assume that p/q must be inside tree, only right solution
+
+239: non-increasing sequence for window
+
+240: stair case new approach, can do linear
+
+241: min solution revisit, index by operators [li, hi] when li == hi, means no operator, takes nums[li]
+
+307: lazy calling recursion. check rage inside function
+li, hi to li, mid and mid, hi, stop at case when li + 1 = hi
+return self.query_node(root.left, start, min(end, mid)) + self.query_node(root.right, max(start, mid), end)
+
+310: leave cuting algorithm until there is only one or two leaves left, return it
+
+311: smart use of lazy loading and vector linear combination
+
+312: nums[k] * nums[i-1] * nums[j] for problem i,j k is the last one to pop in the interval. The boundary are guaranteed
+
+314: sorting on x, left tree node may go underneath right tree node, so need depth to help sorting
+BFS is better
+
+315: Descending sorting is more natual, since all smaller elements are on the right.
+
+316: beautiful greedy algorithm
+
+317: multi-origin BFS span does not work here. If A appears in some level for multi-origin BFS. It only tells me
+it is reachable to one of the origin, in this question, we need to know the distance to all origin.
+
+So do span on origins one by one
+
+318: revisit, group and multiply by maxlen, don't store each string
+
+320: use iteration, don't use bitmap. Three cases
+
+321: The merge is not very efficient. But seems OK
+
+330: keep cap and greedy, cap += num, or put cap + 1 as new value if needed
+a, b merge, each time pick the one with smaller dictionary index and pop the first letter
+
+332: need to pop one ticket every time. sort visit smallest dictionary each time.
+But sort reverse so pop from end
+
+333: Revisit, clean way to write
+recur function will return if left tree is a valid BT. If not return None
+outside recur, we check if returned == root.left
+1. left is valid, equal
+2. left is not valid, not equal
+3. left is empty, always equal.
+customized function to compare None and integer values
+
+334: speical case
+
+336: BF, but palin can be either prefix or suffix of string
+
+340: stream processing for follow up, last index map
+
+341: Cool generator approach
+or preorder stack
+seekValue and seekNode, seekNode move the iterator pointer to the next available place.
+
+342: return num > 0 and num&(num-1) == 0 and num&0x55555555 > 0
+
+343: DFS is sub-optimal, DP is only N^2
+Careful about that number has to be splitted at least two numbers
+revisit
+
+347: revisit, simple case can use PriorityQueue instead of heapq
+easier to push blindly first and pop if size overflow
+
+350: sort and merge as alternative.
+
+351: To optimize, utilize symmetric property, only needs 1, 2, 5 as start
+
+352: first thought union find. but still work needed from individual UF element to disjoint interval
+merge interval problem
+
+366: call left/right recur and combine
+
+368: DP, # maxset[i] stores largest divisible set using element nums[i]
+Needs revisit, seems like N^3
+
+369: Good, find last digit which is not 9, if the number is already 9, then last digit not 9 is the 
+fake head
+
+370: Skyline
+
+371: takes all carry-over bits in a single number b, loop until b is zero
+
+372: math a^23 = (a^2)^10 * a^3
+
+373: Merge sort is obvious wrong.
+A: 1, 2, 1000
+B: 1, 3, 50
+will generate (1, 1), (1, 2), (2, 3), cannot go back to (1, 3)
+binary search for find the bar and sort all the candidates
+
+Revisit, can do better than answer
+
+376: simple greedy logic, first pair can be decreasing or increasing
+
+426: prepend to cdl. what updates. 
+new head: prev, next
+cur head: prev
+cur tail: next
+
+428: didn't figure out convert to BT algorithm
+See my clever serde algorithm. put "#" to mark the end
+
+431: good, not to difficult, careful
+
+432: why can do linear. Incre/Decre by 1, if the update can be anything. Can't do linear
+last_idx and first_idx map to mark the division
+
+433: bfs needs visited state, can reuse the bank variable
+
+434: like battleship
+
+435: sort and check end boundary, keep smaller boundary
+
+436: sorting only, boring
+
+437: check at each node when recur called, check how many path at the current recur node.
+Keep current path sum and the counter of all paths from root index by sum
+Good
+
+438: Sliding window
+similar to min window containing all characters
+
+439: t/f as leaf
+
+440: similar to 386? But cannot enumerate the first K elements. Trick, count number of nodes
+in a "complete" tree
+
+441: math -b + sqrt(delta) / 2a
+
+452: Sounds similar to meeting room 2, but complete different
+Meeting room 2 translate here: the dart that crosses most balloons
+
+Also different from skyline problem.
+
+Sort by start and merge
+Very careful: When overlap happens, cur_end = min(cur_end, balloon[i][1])
+
+Why skyline algorithm does not work:
+suppose there is a counting of active balloons of 2, 3, 1. 
+
+First idea is to cross 3. But We can't differentiate two cases below
+
+--
+--
+ -- 
+
+or 
+--
+--
+ -
+  -
+
+453: pure math
+
+454: similar to 373, but easier. Merge sort does not work here. 
+Sum dictionary, N^2
+
+455: simple merge sort
+
+456: revist
+1. Fix 1 in the min_left array. Keep 3 in the decreasing stack. Find 2 that can stack on top of 3 and check if 1 < 2
+2. Iterate on 1 reverse. Find max 2 that has something bigger on the left but on the right of 1
+
+457: Not good questions, check from each starting point, and check if the looping size is zero
+To give the loop check initial momentum
+
+loop_cnt = 0
+while loop_cnt == 0 or s != f:
+
+458: pig can drink from multiple buckets. Math.
+
+One interval: 4 buckets
+
+OP
+OO
+
+Pig 1 takes row 1 pig 2 takes col 1
+
+Two intervals: 9 buckets
+
+OOO
+POO
+OOO
+
+Pig 1 takes row 1, nothing happens after 15 minutes, takes another row
+Pig 2 takes col1 and die after first 15 minutes
+
+459: I can do it now. Prove it
+If a string does not have pattern, and s+s[1:-1] has s as substring, prove by contradiction
+
+the substring span S and S by length L1 and L2. 
+Suppose s[:L1] is seg1, then s[L1:] must also start with seg1, since S[L1:] match with starting of the second copy of S
+
+KMP approach:         return p_len > 0 and len(s) % (len(s) - p_len) == 0
+
+
+460: revisit, add function with priority. However PQ can takes care of frequency as internal and provide a simpler touch function interface
+
+PQ: _add(v, p, ts), touch(v, ts), remove(v), pop(), stores key only.
+Value are in valueMap
+
+461: xor and x=x&(x-1) to remove each 1
+
+462: meeting point problem, takes median (or index of N/2)
+
+463: like battleship problem, But here we can do 4 or 2 direction checkings
+
+464: Revisit: corner case of no one can win, the logic of return T if all False is not necessary right
+But return F if all True is correct.
+
+Initial = 0 case
+
+465: The solution works
+
+526: set as the input to recur, use tuple(set) to store in memory table
+
+527: trie with each node indexing the abbr, just be careful, not too hard
+
+529: visited state is stored at the board itself. revisit
+If it is not blank, then stop calling further DFS.
+Other wise. 
+
+If you click some e at the top row. the right bottom e shouldn't be exposed. otherwise every empty will be
+exposed, so there is no game
+
+eeee
+e111
+e1xe
+
+533: pre-process each column. For each column take all rows i with m[i][j] as 1, check if they are all equal
+One column only process once
+
+535: generate a fix 6 bit random short URL and store the mapping in dictionary
+When generating new one, keeping looping if clash found
+
+536: add ( at beginning and ) at end
+Each recursion try to match if first is (, 
+() is special case
+
+539: instead of sorting, set is better, since only 1440 data points
+
+540: good question, use binary search. get middle and check if left or right is equal,
+try to get to the side with size 2n + 1
+Revisit
+
+542: Two approaches
+1. Multiple source BFS (Similar to shortest to gate)
+# Multiple start BFS.
+# To avoid using visited variable few choices
+# 1. Traverse layer by layer, each layer use set
+# 2. Use the distance map, and only push to queue when strictly smaller found
+
+2. DP (revisit)
+Not very obvious, very restrict to this question, not generalize to any maze problem
+There is no such case it take the L shape below. So shortest distance to 1 must originate 
+1. from below (if any zero)
+2. the zero above does not cross the sea level of 1
+
+0
+|
+|
+------  1 ---- 
+|       | 
+|--------
+
+543: root null can be checked in side recur function
+
+544: divide and conquer
+
+545: the special rule that left/right tree is empty, then the left/right boundary is root
+ONLY apply at the tree root
+
+      1
+    /   \
+   2     4   
+     \
+     3
+
+3 is still part of left boundary
+Find left, right boundary and leaves
+NOTE that left boundary not necessarily end with leaves. (In case of empty left/right tree)
+
+547: Similar classical question. Revisit
+Strongly connected component. 
+https://www.geeksforgeeks.org/strongly-connected-components/
+
+MARKOV chain or UF
+
+Markov chain will end up with disjoint square blocks. We check how many unique rows there are
+
+548: multiple N^2 algorithm. Fix i, j. Check if sum[:i] is in the precompute valid splitting sums 
+of arr[j+1:], so we know constant time if there is k existing.
+
+549: return max incr/decr seq from node
+
+552: revisit,  dp_clear is better in saving memory and more standard
+
+When handling problem like no adjacent LL (like house robber).
+1. Keep number of L as part of argument for the problem. If last step k takes L, then sub problem becomes
+P(k-1, n_L-1)
+OR
+2. Populate non L at step before and reduce to P(k-2) 
+
+553: See Q399
+
+Store the string as well (I thought about storing the split first, but still needs one more round)
+
+Store min and max map, each store both value and expression
+
+OR there is math solution
+
+554: index with most gap residing. Corner case, no gapping, careful of max(empty_set)
+
+555: More like a brute force
+We need to find the place to cut the string, so all the strings which are not cut must be taken
+from the max of s and s[::-1
+
+558: if one is leaf then easy case. Otherwise neither leaf. Do recursion on four parts
+Don't forget to merge them if needed
+
+562: REVISIT. Brilliant solution
+How to write it cleanly
+Do the traverse of row first and then col.
+Start searching along some direction if the element is zero
+
+565: loops don't cross each other, use single used array
+
+572: brute force not so bad. M*N
+bf use check_same(s, t) function
+
+573: math
+
+546: extremely difficult
+
+576: base case careful
+
+581: use common sense find the longest increasing sequence from end and start
+
+590: post order smart stack
+
+592: ints = map(int, re.findall('[+-]?\d+', expression))
+May not need lcd and lcm algorithm, careful when doing lcd to clean up fraction
+
+593: sort the points to get them in positions
+
+594: counting problem, only two values allowed
+
+598: min(map(lambda x:x[0], ops)) * min(map(lambda x:x[1], ops))
+
+600: revisit, bit 1 one by one
+
+605: approach 1: math, each adjacent (i, j) can take up to (i-j) / 2 - 1
+Approach 2: check if both -1 and +1 positions are all zeros
+
+611: N ^ 2, find i, j, where e_i < e_j, fit e_k with e_k > e_j and e_k < e_i+e_j
