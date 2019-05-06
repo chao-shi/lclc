@@ -7,7 +7,7 @@ class Solution(object):
         def permutation(char_cnt, prefix, res):
             if len(char_cnt) == 0:
                 res.append(prefix)
-            for ch in char_cnt:
+            for ch in set(char_cnt):
                 char_cnt[ch] -= 1
                 if char_cnt[ch] == 0:
                     del char_cnt[ch]
