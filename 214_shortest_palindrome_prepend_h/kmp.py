@@ -32,7 +32,7 @@ class Solution(object):
                     # j decrement if can
                     # otherwise i += 1
                     if j > 0:
-                        j -= j - lps[j-1]
+                        j = lps[j-1]
                     else:
                         i += 1
             return j
