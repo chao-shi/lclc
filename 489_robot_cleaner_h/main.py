@@ -62,24 +62,24 @@ class Solution(object):
             # no matter result of the wall
             return dir_v[self.d:] + dir_v[:self.d]
 
-        # clean i, j, moved from i_prev, j_prev
+        # moved to i, j, moved from i_prev, j_prev
         def recur(i, j, i_prev, j_prev):
-            robot.clean()
-            cleaned.add((i, j))
+            if (i, j) not in cleaned:
+                robot.clean()
+                cleaned.add((i, j))
+
             for v in gen_direction():
                 i_1, j_1 = i + v[0], j + v[1]
                 if (i_1, j_1) not in cleaned:
                     orient(i_1, j_1, i, j)
                     if robot.move():
                         recur(i_1, j_1, i, j)
-            orient(i_prev, j_prev, i, j)
-            robot.move()
+
+            if i_prev != None and j_prev != None:
+                orient(i_prev, j_prev, i, j)
+                robot.move()
         
-        robot.clean()
-        recur(0, 1, 0, 0)
-        recur(1, 0, 0, 0)
-        recur(0, -1, 0, 0)
-        recur(-1, 0, 0, 0)     
+        recur(0, 0, None, None)   
         
 # Key point is to use the index, fit the orient function is very universal.
 # This approach is very efficient
