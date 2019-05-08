@@ -20,6 +20,8 @@ class Solution(object):
             # Otherwise if it is D, 
             # Needs to search the last seen "I" 
             # Pattern will be IDDDD....D
+            
+            # The idea is the invert the section of DDD...DD
             if s[i-2] == 'I':
                 last_I = i - 2
             ans.insert(last_I + 1, i)
