@@ -501,6 +501,7 @@ s1 = "bacba" where first b will be skipped
 also N2 has not much use
 
 467: represent each sequence as start:len, update the maxlen
+Tricky when does not count duplicates
 
 468: 
 1. Split and check length
@@ -513,11 +514,13 @@ also N2 has not much use
 or two rand7 makes rand49, do mod on rand40
 
 471: Brute force DP with mt[i:j].
-To optize, use k=(s+s)[1:-1].find(s)
+To optize, use k=(s+s)[1:-1].find(s, 1). (Find from index 1)
 k is the min repeating substring!!!
+
 
 472: sort the string and also use memorization
 Corner case careful, must be at least one component
+optimize: First check if remaining ALL string is in the dictionary.
 
 473: i, and length[4]. Keep idea
 1. Symmetric
@@ -532,6 +535,8 @@ Corner case careful, must be at least one component
 479: not very important, BF
 
 480: PQ which allows removing, use idx as value and num[idx] as priority
+
+[SIMILAR] Median
 
 481: nothing special, start with A, B = [1, 2, 2], [1, 2]
 
@@ -550,6 +555,8 @@ If it is D, we need to continue swapping until we found an I
 Revisit
 
 486: simple
+[SIMILAR] Game theory questions. Corner case win or not in case of empty array
+
 
 487: seg window algorithm
 Keep memorization of last all one segments. For current 1, try to flip first or last.
@@ -557,7 +564,10 @@ For last all one segment, try to join with flipping one bit
 
 OR:
 Left/Right window optimal solution. Imagine each seg of 1, two 0 have a 0 length 1 segment between them
-So two zeroes will flush both left and right window
+So two zeroes will flush both left and right window.
+Easier to think about the sub problem of ending with each index rather than connecting left and right
+At index i, right window is the continous 1 starting from i and go left until you hit zero
+Left window is from that zero and go further left and how many 1 can you collect
 
 488: Revisit. BFS level by level. Each level i is solution of using hand[:i]
 Each element in the level represents (result, cnt), result is the result board and cnt is how many ball inserted.
@@ -570,8 +580,6 @@ few points, keep cleaned state and direction.
 orient function. 
 When call recurions, based on the current direction ,generate different sequences
 
-Before calling recur(i, j), check if cleaned, if not, we need to orient first and then check if we can move
-
 491: Simple set expanding iteratino
 set union
 A | B
@@ -583,6 +591,7 @@ Similar 315/327
 main.py more straigtforward
 dp.py see how to split two numbers to equal sum
 
+[SIMILAR]
 Math formula, add sign, revisit
 
 496: stack
@@ -596,14 +605,13 @@ boundary, but less clean)
 The stack is non-decreasing
 Monotonic stack, revisit
 
-
-
 507: 0, 1 corner case
 
 510: A little careful, parent not necessary left-child parent.
 
 516: Palindrome questions, revisit
 
+[SIMILAR]
 Q5, Q131, 132, Q214
 Q266, Q267, 
 Q336
@@ -619,6 +627,7 @@ If we use j, what is the first elemeent m[k] = m[j], then keep some first index 
 No need, it is covered by m[i+1:j] and we can check if m[i] == m[j] separately
 
 518: Simple
+[SIMILAR]
 Coin change proble:
 Q322, Q518
 322 VS 518. init value: 1vs0, reduce: min vs sum
