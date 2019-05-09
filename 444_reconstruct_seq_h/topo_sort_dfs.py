@@ -1,3 +1,4 @@
+import collections
 class Solution(object):
     def sequenceReconstruction(self, org, seqs):
         """
@@ -20,7 +21,7 @@ class Solution(object):
         
         if len(src) != 1:
             return False
-        
+
         src = src[0]
         visited = {}
         rev_seq = []
@@ -31,15 +32,27 @@ class Solution(object):
             elif visited.get(cur, 0) == 2:
                 return True
 
+            # Some pre-checking
+            zero_child_cnt = 0
+            for next in out_map.get(cur, []):
+                in_map[next].remove(cur)
+                if len(in_map[next]) == 0:
+                    zero_child_cnt += 1
+            if zero_child_cnt > 1:
+                return False
+
             visited[cur] = 1
             for next in out_map.get(cur, []):
                 if not topo_sort(next):
                     return False
+
             visited[cur] = 2
             rev_seq.append(cur)
             return True
-        
-        topo_sort(src)
+
+        # Not a unique sequence or there is a loop
+        if not topo_sort(src):
+            return False
         
         # case where the component of src is good, but another component is a loop.
         if len(visited) != len(elements):
@@ -50,4 +63,5 @@ class Solution(object):
 # This is clearer than the PQ approach
 # It picks one node with zero in-degree and does the topo-sort from there
 # Check if all nodes are visited and the topology sort return same as the origin 
-                
+# 
+# Update not so clean now, still needs to check if any node is zero in-d

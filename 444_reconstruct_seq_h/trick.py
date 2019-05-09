@@ -5,7 +5,6 @@ class Solution(object):
         :type seqs: List[List[int]]
         :rtype: bool
         """
-        # This approach still not passing due to recursion depth
         n = len(org)
         
         # annoying pre-checking
@@ -32,3 +31,4 @@ class Solution(object):
             if e2 not in next[e1]:
                 return False
         return True
+

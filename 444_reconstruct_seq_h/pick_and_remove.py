@@ -45,3 +45,5 @@ class Solution(object):
 # Also [1, 2], [2, 1]
 # 
 # TLE for this solution.
+# 
+print Solution().sequenceReconstruction([1,2,3], [[1,2], [1,3]])
