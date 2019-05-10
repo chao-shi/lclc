@@ -5,20 +5,16 @@ class Solution(object):
         :rtype: bool
         """
         hm = {}
-        def dfs(i, cur_sum, target):
-            if i == len(nums):
-                return False
-            elif cur_sum == target:
+        def dfs(i, target):
+            if target == 0:
                 return True
-            elif cur_sum > target:
+            elif target < 0 or i == 0:
                 return False
-            elif (i, cur_sum) in hm:
-                return hm[(i, cur_sum)]
-            v = dfs(i + 1, cur_sum + nums[i], target) or dfs(i + 1, cur_sum, target)
-            hm[(i, cur_sum)] = v
+            elif (i, target) in hm:
+                return hm[(i, target)]
+            v = dfs(i - 1, target - nums[i-1]) or dfs(i - 1, target)
+            hm[(i, target)] = v
             return v
         
         total_sum = sum(nums)
-        return dfs(0, 0, total_sum / 2) if total_sum % 2 == 0 else False
-
-# Line 13, don't forget
+        return dfs(len(nums), total_sum / 2) if total_sum % 2 == 0 else False
