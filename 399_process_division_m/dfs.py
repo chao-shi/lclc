@@ -26,7 +26,6 @@ class Solution(object):
                 ret = recur(n, divisor, visited)
                 if ret != -1.0:
                     return ret * ratio_map[cur][n]
-            visited.remove(cur)
             return -1.0
 
         
