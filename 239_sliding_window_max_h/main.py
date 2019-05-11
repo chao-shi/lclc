@@ -11,18 +11,18 @@ class Solution(object):
         for j in range(len(nums)):
             # update left
             if j - i >= k:
-                if dq[0] == nums[i]:
+                if dq[0] == i:
                     dq.popleft()
                 i += 1
                 
             # update right
-            while dq and dq[-1] < nums[j]:
+            while dq and nums[dq[-1]] < nums[j]:
                 dq.pop()
-            dq.append(nums[j])
+            dq.append(j)
             
             # get max
             if j - i + 1 == k:
-                res.append(dq[0])
+                res.append(nums[dq[0]])
         return res
-            
-            
+
+# Less ambiguity to store index
