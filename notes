@@ -364,15 +364,13 @@ Revisit followup
 
 394: can simplify
 
-395: Interesting problem, Divide and conquer, not sliding window.
+395: Interesting problem, Divide and conquer
 
-Sliding window move right, most likely some element appear less than K. Then what, move left? this will make it worse
+Sliding window solves differently. Traditionally sliding window is good at maxing at certain count.
 
-One suggestion here use sliding window though, not sure if this is right
+Here we need to limit the number of chars in the window. Try from 1 char to 26 char.
 
-https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/discuss/87739/Java-Strict-O(N)-Two-Pointer-Solution
-
-Sliding window questions:
+[SIMILAR] Sliding window questions:
 Q3: i direct move
 Q76: i move one by one. However, there is one optimization when sliding window only happen on the filtered indexes
 see sol2
@@ -388,6 +386,7 @@ Q438: Similar to Q76
 398: sparse memory reservoir sampling
 
 399: revisit, maybe DFS is better. DFS careful about visited state
+Also solvable using union find
 
 400: math problem. LogN
 
@@ -403,6 +402,7 @@ BFS and ITER: Go forwards, Distance from source
 405: revisit, negative numbers easier using mask
 negative number, convert signed to unsigned
 and remove leading zeroes
+Don't change to binary. use 16 mod directly
 
 406: lambda -x[0], x[1]
 
@@ -437,8 +437,15 @@ any conflict
 Probably the best solution is still DP. Can be reduced to 1D DP. The dimension of sum is still needed
 
 417: Multiple source DFS (call DFS for each source) seems OK, can also use BFS. Seems no need for multiple source BFS
+DFS we mark only once and if already marked, stop DFS.
+Can we do:
+DFS can also be optimized by call only on lowest point on each edge.
+NO, WE CAN'T. there can be small valley where cannot connect to lowest point
 
 418: revisit, main.py is the best solution, using the one pointer and mod l to get mapped into the concat string
+i is cursor on reperated string. i increment by n each time. if i lands at the end of the word, that means
+we can store the next space free (n slots stores all the words plus one space). We incre i by 1 and start
+next line with the beginning of next string.
 
 419: Got stuck, both upper and left empty
 
@@ -458,21 +465,30 @@ Hence, we only need to keep track of a globalMaxFreq to record the globally maxi
 
 425: simple prefix
 
+426: append also works. We use prepend for the problem converting
 
-444: Pretty open question
+   r
+ /   \
+L     R
 
-Approach 1: use some topology sorting to find the original sequence.
-The first element in the original sequence must have no one preceding it.
-Therefore we use the in-degree as the priority here.
-1->2->3 case, 1 has no in-degree and both 2 and 3 have 1 in-degree
+to r - L -R
 
-Approach 2: pure topoo sorting
+444: Pretty open question (BFS topo sorting vs trick)
+
+Approach 1: Pick in_degree zero and remove. Instead of randomly start searching for zero in degree among 
+all node, we can improve this to BFS 
+pick_and_remove.py and pq.py
+
+Approach 2: DFS topo sorting is not so clean
+topo_sort_dfs.py
 
 Approach 3: Trick, a little adhoc here
+trick.py
 
 447: my writing of counting while updating is a little confusing. 
 Explain, find combination (k, j) where k < j and increment count by 2 * count[dist]
 (i, k, j) and (i, j, k)
+N*2
 
 448: stupid questions
 
