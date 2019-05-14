@@ -30,11 +30,12 @@ pre-sequence which ends with cands[j-1], this prompt us to store two arrays
 055: forget the trick a lot
 
 060: maintain bucket size from (n-1) ! to 1, each time pop k / bucket_size
+smart solution to use pop
 
 061: join loop and cut the ribbon
 
 062: [i][j] = [i][j-1] + [i-1][j], takes upper and left, go from left to right
-     [i][j] = [i][j-1] + [i-1][j-1] , takes upper and upper left, go from right to left to process
+     [i][j] = [i-1][j] + [i-1][j-1] , takes upper and upper left, go from right to left to process
 
 063: smart to mark cnt[i][j] = 0 if [i][j] is block. Smart also how to process row one just like others
 hidden first row
@@ -65,11 +66,20 @@ decrease. This will have the smallest window of ending j with largest match
 087: sort, check same and recursion
 
 088: One array has extra space to hold everything
+the given array length is part of input
 
 090: without counting first, idea like this below
 For dup elements (second or after), only insert after the new subset you got from last round (up to last number)
 For other numbers, insert into any subset in any round 
 https://leetcode.com/problems/subsets-ii/discuss/30137/Simple-iterative-solution
+[1, 2, 2]
+start with [[]]
+after 1:   [[], [1]]
+after 2:   [[], [1], [2], [1, 2]]
+after 2:   this 2 is special, it should only add to the last round newly added subsets
+           only [2] and [1, 2] can be extended
+           [[], [1], [2], [1, 2], [2, 2], [1, 2, 2]]
+The starting j is zero if cur number is different from previous
 
 092: smart rotating, for [2, 5] is to revert, 1 is the anchor. Everytime takes the new last element to insert right after the anchor.
 This keeps the LL in good form
@@ -85,6 +95,7 @@ Good question
 careful of edge cases
 
 098: cap window of min/max
+[SIMILAR] Q270, use cap of min_int and max_int
 
 099: inorder and check sudden drop. How swap2 are blindly overwritten
 
@@ -94,20 +105,25 @@ careful of edge cases
 
 102: level = [child for p in level for child in [p.left, p.right] if child] quick iteration
 
+103: can use two stacks
+
 107: level always right direction, option to put value reverse or not
 
 110: squeeze the returned parameter to 1
 
 111: how to handle one size 0 more gracefully
 case 1: both not 0, case 2, 3 one side zero
+not min(h_left, h_right) + 1
 
 112,113: return false when tree node is empty. Don't judge if root.left == None, let it to next round
 
 114: the result is reversed pre-order. Add node from tail all the way to the head.
 
 115: DP
+m[i][0] = 1
 
 116: recur one parameter, parent set the next of the right child
+parent help child set next
 
 117: again parent help child join the next
 
@@ -123,10 +139,11 @@ case 1: both not 0, case 2, 3 one side zero
 146: sub function of del_val and put_val
 
 148: base case of zero or one node
+split needs to disconnect and break the LL
 
 149: inner look only check up to i to save some iterations
 Why the anchor point is the end of the segment
-vertical and same coordinate. 
+CORNER CASE: vertical and same coordinate. 
 
 150: negative division ambiguity
 
@@ -134,18 +151,26 @@ vertical and same coordinate.
 inplace, trigger point, space or at the end of string
 
 152: Don't forget to compare num itself
+tmp = [maxprod * num, minprod * num, num]
+minprod, maxprod = min(tmp), max(tmp)
 
 153: end condition is num[li] <= num[hi], which means it is sorted already
 hi = mid is ok, but li = mid might cause inf loop
 search for an inverse interval
 
 154: change ending condition
+try to find the decreasing pattern
 
 156: awesome idea, when left tree is rotated, we have the new root for left tree, 
 but the rightmost node is still attached with root
 
+The right node is always either leaf node or empty. So we don't attach the right tree
+but single node
+
 159: last index map. map size at most 2, if bigger, needs to pop first seen char
 Good question, needs revisit
+# Find min value with certain criteria
+rm_ch = min(last_map, key=last_map.get)
 
 160: trick of restarting from head
 
@@ -154,7 +179,12 @@ compare num[mid] and num[mid + 1]
 
 163: insert lower - 1 and higher + 1
 
-164: bucket sort
+164: VERY good question
+The key point is to design a proper bucket gap 
+so that it is guaranteed to have a empty bucket.
+Then we only need to check between two buckets which
+has values. Check max of one bucket and min of another
+
 
 165: iteration for max(len1, len2)
 
@@ -169,6 +199,14 @@ trade off of add/find
 
 173: min step solution
 root is like the right child of imaginry root
+if self.stack:
+    p = self.stack.pop().right
+else:
+    p = self.root
+
+while p:
+    self.stack.append(p)
+    p = p.left
 
 174: backwards and if min_blood is negative, mask it to be 1
 
@@ -177,6 +215,9 @@ root is like the right child of imaginry root
 187: rolling hash, can still be more efficient by changing to bit operation rather than * and % 4
 
 188: revisit, still outer loop is stock price better
+state array:
+0: 1 buy 0 sell
+1: 1 buy 1 sell ...
 
 189: rotate mod, need to check if length 0, cannot mod 0
 
@@ -198,11 +239,14 @@ R: DAAABAA    DAAABAA
 
 218: MaxMap, a map which allows to get max value logN
 Or a priority queue which allows to delete task or even more update the priority
+the height is priority
 
 219: K fixed window approach
 
 220: very hard, pigeon theory. Bucket step size of t + 1, current window of K, the numbers in the window will NEVER
 stay in the same bucket
+
+If two value diff > t, then it can never be the same bucket.
 
 221: DP, start from 1, 1
 
@@ -224,11 +268,13 @@ This will early prune a lot of cases of not satisfying increasing sequence.
 don't forget case of just remain
 revisit
 
-256, left tree parent stack, similar for verifying post-order
+255: left tree parent stack, similar for verifying post-order
+Case when stack top is equal, still pop and max with max_value
 
 260: bit=xor ^ (xor & (xor-1)) extract last bit 1
 
 261: use neighbor map as a dual to store visited. Pop from neighbor if all visited
+if all visited, then neighbor map is all popped and will be empty
 
 264: i, j, k approach
 
@@ -244,33 +290,43 @@ two approaches, char_cnt or same char insert after
 269: first diff and topo sort, use precede map
 
 270: greate iteration approach using -inf and inf
+Use two variables to store closest right and left parent
 
 271: use ending special char better than splitting special char
+VERY VERY TRICKY CORNER CASE
+[""] and []
+That's why we use end marker rather than delimiter, The delimiter cannot differentiate 
+those two cases
 
 272: implement two iterators and do like merge sort
 
 275: mid = 0 case, last good version
+NOTE: The search space is [0, max(cite)]
 
 276: careful I did a subtraction wrong version
 
-277: if there is celebrity, you are always going to end it here. 
-All nodes are iterated. If celebrity is first, then we end up here
-Else, we always will visit (i, celebrity) link which will end in celebrity
-However ending up one place is only a necessary condition for celebrity.
-We need to check he knows everyone.
+277: The algorithm goes left to right and should land at the person who
+knows nobody on the right. The same goes right to left. Land at person knowing
+nobody on the left.
 
-Do two directional checks to make sure there is one person who knows nobody.
+The two candidates should be the same. Still need to check if all know him 
 
 279: DP is op, Lagrange math solution also
 
 280: trick of xor.
 
-282: why load first number as prefix rather than just call
+282: 
+First, seems no need to store memory table. The result of recur(i) is not useful for the formula in 
+first half
+
+why load first number as prefix rather than just call
 recur(0, "", 0, 1)
 If does, we will end up something like -4 + 5 which is wrong
 
 283: don't swap, update remaining zero at end
 similar to 027
+If swapped, then the swapped zero can be filed overwritten by another non-zero value. Not point
+[SIMILAR] ARRAY swapping
 
 287: one missing easier, can rest only appear once
 one duplicate harder. Can duplicate multiple times
@@ -280,6 +336,8 @@ Important logic of first recurring element, the preceding of those two must be d
 know they are duplicated numbers
 
 291: revisit
+needs two mapping (pattern->word and word->pattern)
+The question ask for bijection
 
 302: use first bad version projection approach
 
@@ -287,30 +345,37 @@ know they are duplicated numbers
 
 306: no backtrace here
 
-354: Imagine W as the x index. Find some Doll[w1], Doll[w2] such that they are increasing in H
+354: Imagine W as the array index. Find some Doll[w1], Doll[w2] such that they are increasing in H
 revisit
+Funny that the width is not used at all after sorting.
 
 355: Get top 10, 
 Approach 1: get top 10 for each follower and user himself. Sub-optimal
 Approach 2: Like merge sort a list, put most recent in the heap, pop and put next most recent.
 Better use negative indexes. Tuple contains (data, queue_id, queue_negative_index)
+revisit
 
 357:
 0-0: 1
 1-9: 9
 10-99: 9 * 9
-100-999: 9*9*8
+100-999: 9*9*8. (ALL 0-999 unique digit - starting with zero)
 
 358: bag and max remaining frequency.
 
 359: last_index
 
 362: deque of ts and map for counter
+Careful: multiple hit at same ts
+Followup: See API rate limiter and how to store data in smaller blobs
 
 363: use insort, which insert and sort
 m, small dimension
 n, large dimension
 m*m*n*log(n)
+
+Update: can do better, it is two pointer problem if the values are all positive,
+which is not in this question
 
 364: trick, use negative depth
 
@@ -319,6 +384,9 @@ https://artofproblemsolving.com/community/c296841h1273742
 Also, the logic of starting from mid element to split may not be right. How to prove??
 
 376: greedy, the first two elements set the tone, starting to fall or starting to rise
+Don't set the tone using the first two elements, not guaranteed.
+Special case if the stack has only one element or zero.
+First element guaranteed in the final result.
 
 377: Different from coin change. Careful
 Take the inside loop out is not correct.
@@ -343,6 +411,7 @@ Difference:
 All solution seems to favor loading large data structure during constructor call. Then all operations will be o(1)
 Such as available set
 bit array for each number
+Available set make sense when most numbers are already taken. Otherwise the used set make sense
 
 Another idea, if recycled number is preferred, can keep a local cache of recycled.
 
@@ -359,10 +428,13 @@ Another idea, if recycled number is preferred, can keep a local cache of recycle
 389: can use xor. Every element appears twice except one appear once
 
 390: just operate on start and en
-followup: char index map for t. For each ch, find first char index right to base and after base afterwards
-Revisit followup
 
 394: can simplify
+[SIMILAR] Stack operator problem.
+[ push to stack
+] pop operator and calcuate the repeated string. And extend to top of stack
+Initialize to [[]]
+
 
 395: Interesting problem, Divide and conquer
 
@@ -374,6 +446,7 @@ Here we need to limit the number of chars in the window. Try from 1 char to 26 c
 Q3: i direct move
 Q76: i move one by one. However, there is one optimization when sliding window only happen on the filtered indexes
 see sol2
+Q159: immediate move i
 Q209: move one by one
 Q239: a little different flavor. Not counting bag but descending order in window
 Q358: Some flavour
@@ -609,6 +682,7 @@ dp.py see how to split two numbers to equal sum
 
 [SIMILAR]
 Math formula, add sign, revisit
+Q282
 
 496: stack
 
