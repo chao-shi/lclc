@@ -22,10 +22,10 @@ class Solution(object):
         left_lca = self.lowestCommonAncestor(root.left, p, q)
         right_lca = self.lowestCommonAncestor(root.right, p, q)
         
-        if right_lca:
-            return right_lca
-        elif left_lca:
+        if not right_lca:
             return left_lca
+        elif not left_lca:
+            return right_lca
         else:
             return root
         
@@ -33,3 +33,6 @@ class Solution(object):
 # Single return: return lca, else return either p or q
 # Easier to write
 # Always need to traverse entire tree
+# 
+# Discard it now, too difficult to explain
+# and no short circuiting on left tree
