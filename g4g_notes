@@ -1,0 +1,103 @@
+In Binary tree, number of leaf nodes is always one more than nodes with two children.
+
+Count of unlabeled bt. Nth Catalan Numbers
+
+BST store count at node level
+
+widest path problem
+
+morris traversal for in-order no recur or stack. Add in-order predecessor right point to ancestor
+left empty: in_order and go to right
+Left not empty: 
+Case 1: going forward, set back edge
+Case 2: going backwards, remove back edge
+
+find-postorder-traversal-of-bst-from-preorder-traversal/ Real O(N)
+like deser a binary tree
+recur function takes upper bound and lower bound so we know where to stop
+
+replace-node-binary-tree-sum-inorder-predecessor-successor/
+use inorder index as key for mapping to value
+
+inorder-succesor-node-binary-tree
+combine searching node and finding parent together 
+
+reverse-level-order-traversal/
+queue (queue is reverse q, right first then left) and stack to store result
+
+diagonal-traversal-of-binary-tree/
+d as right depth
+
+minimum-swap-required-convert-binary-tree-binary-search-tree/
+Turn into array, sort it, keep index map and do selection to place things in the correct index
+
+find-root-tree-children-id-sum-every-node-given
+Super tricky, every ID appears at once except root
+
+check-rows-matrix-circular-rotations
+How to check if one string is rotation of another one. Use concat and string matching.
+Can be done in O(N)
+
+find-the-row-with-maximum-number-1s
+Stair case algorithm, start with first 1 on row 1, then each row search left
+M+N, better than M*logN
+
+number-elements-less-equal-given-number-given-subarray
+Very good question
+Segment tree or BIT store the count of elements smaller than certain value x (x is the query value)
+as the query value goes up, we keep undating the tree as well.
+
+This makes a big difference. Are queries 
+batched processing or online processing?
+
+This approach only works well for immutable input and batched queries. 
+
+number-elements-less-equal-given-number-given-subarray-set-2-including-updates
+Very difficult
+If updates allowed
+This case queries and updates are online.
+We can't change the semantic meaning of BIT like last one (Last question, after each 
+time we process a query, the semantic of BIT is changed to count of elements smaller than x)
+
+Instead of the BIT (of each sqrt block) store the range of index, it store the range of real integer values.
+Note that this approach is very expensive in memory
+
+# Remove the old value arr[i], decre counter by 1
+update(arr[i], i/blk_sz, -1, bit); 
+# Insert new updated value, incr counter of v by 1
+update(v, i/blk_sz, 1, bit); 
+
+count-elements-which-divide-all-numbers-in-range-l-r
+Very good question. Count minimum and calculate GCD and see if it matches
+
+number-whose-sum-of-xor-with-given-array-range-is-maximum
+Like LC process integer binary form prefix
+If the number of 1’s and 0’s are equal then we can set that bit of X to any one of 1 or 0 because it will not affect the sum, but we have to minimize the value of X so we will take that bit 0.
+Each segmement tree store number of 1/0 for each bit
+UPDATE: You don't need segment tree for this. A prefix is good enough
+
+xor-numbers-appeared-even-number-times-given-range
+xor[i:j] = xor[0:k] xor xor[0:j]
+
+Firstly, it is easy to note that the answer for the query is the XOR-sum of all elements in the query range 
+or-ed with XOR-sum of distinct elements in the query range 
+(since taking XOR of an element with itself results into a null value). 
+Find the XOR-sum of all numbers in query range using prefix XOR-sums.
+Again, how to decompose the problem into multiple good strcuture range problem.
+
+
+array-range-queries-range-queries
+Sounds difficult
+
+array-range-queries-for-searching-an-element
+easier just use segment tree
+
+maximum-occurrence-given-range/
+First map to frequency array.
+Then this problem is converted to Range maximum query. 
+However, the frequency at the left and right most may not be accurate.
+We need to do binary search on the value array to find the correct frequency.
+Then we should only do range max query on [leftmost_same, rightmost_same]
+
+merge-sort-tree-for-range-order-statistics
+An example of segment tree node storing the list of index in the range, sorted by value
