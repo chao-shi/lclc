@@ -136,6 +136,8 @@ parent help child set next
 
 133: empty case
 
+145: reverse stack approach
+
 146: sub function of del_val and put_val
 
 148: base case of zero or one node
