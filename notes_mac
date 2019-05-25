@@ -330,6 +330,7 @@ There is no such case it take the L shape below. So shortest distance to 1 must 
 
 545: the special rule that left/right tree is empty, then the left/right boundary is root
 ONLY apply at the tree root
+REVISIT
 
       1
     /   \
@@ -337,7 +338,7 @@ ONLY apply at the tree root
      \
      3
 
-3 is still part of left boundary
+3 is still part of left boundary (We still needs to go left, and it cannot, goes right)
 Find left, right boundary and leaves
 NOTE that left boundary not necessarily end with leaves. (In case of empty left/right tree)
 
@@ -348,9 +349,11 @@ https://www.geeksforgeeks.org/strongly-connected-components/
 MARKOV chain or UF
 
 Markov chain will end up with disjoint square blocks. We check how many unique rows there are
+REVISIT
 
 548: multiple N^2 algorithm. Fix i, j. Check if sum[:i] is in the precompute valid splitting sums 
 of arr[j+1:], so we know constant time if there is k existing.
+REVISIT
 
 549: return max incr/decr seq from node
 
@@ -378,6 +381,8 @@ from the max of s and s[::-1
 
 558: if one is leaf then easy case. Otherwise neither leaf. Do recursion on four parts
 Don't forget to merge them if needed
+Base case no recursion
+If one is true leaf, then return the true leaf, if one is the false leaf. return the other
 
 562: REVISIT. Brilliant solution
 How to write it cleanly
@@ -385,15 +390,18 @@ Do the traverse of row first and then col.
 Start searching along some direction if the element is zero
 
 565: loops don't cross each other, use single used array
+REVISIT
 
 572: brute force not so bad. M*N
 bf use check_same(s, t) function
+optimal solution is to check KMP string matching
 
 573: math
 
 546: extremely difficult
 
-576: base case careful
+576: base case careful (DP needs to be more careful)
+next_round[i][j] = direct_out + last_round[i][j-1] ..... 
 
 581: use common sense find the longest increasing sequence from end and start
 
@@ -404,7 +412,8 @@ May not need lcd and lcm algorithm, careful when doing lcd to clean up fraction
 
 593: sort the points to get them in positions
 
-594: counting problem, only two values allowed
+594: counting problem, only two values allowed. Note the question asked susequence
+Subarray can be done using sliding window
 
 598: min(map(lambda x:x[0], ops)) * min(map(lambda x:x[1], ops))
 
