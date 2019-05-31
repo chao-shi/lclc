@@ -108,6 +108,13 @@ customized function to compare None and integer values
 336: BF, but palin can be either prefix or suffix of string
 
 340: stream processing for follow up, last index map
+How to optmize on line 14, now we are sorting to get min
+What we need is a map which can get the key with the smallest value
+When update the value of key, we just remove the old <K,V> from treeset,
+change the hashset mapping and re-insert into treeset.
+Same as priority queue with updatable priority
+
+# In Java we can do a HashMap<K, V> and TreeSet<Tuple<K, V>> TreeSet sorted by V first then K
 
 341: Cool generator approach
 or preorder stack
@@ -121,25 +128,36 @@ revisit
 
 347: revisit, simple case can use PriorityQueue instead of heapq
 easier to push blindly first and pop if size overflow
+put qsize and get
 
 350: sort and merge as alternative.
 
 351: To optimize, utilize symmetric property, only needs 1, 2, 5 as start
+Can use backtracking rather than iterative generating
 
 352: first thought union find. but still work needed from individual UF element to disjoint interval
-merge interval problem
+merge interval problem. Resivit my clean interval merging algorithm
 
 366: call left/right recur and combine
+Also if use degree counting. Then we need a map to store child degree and another map from child to parent.
+Each time we maintain the set for the current round of the nodes which are degree zero.
 
 368: DP, # maxset[i] stores largest divisible set using element nums[i]
 Needs revisit, seems like N^3
+Some local optmization can be done such as compare the length first and construct the set.
+Brute force is good enough solution here
 
 369: Good, find last digit which is not 9, if the number is already 9, then last digit not 9 is the 
 fake head
+REVISIT
 
 370: Skyline
 
 371: takes all carry-over bits in a single number b, loop until b is zero
+REVISIT, no need to do bit by bit. takes the sum into a and the carry bits onto b
+REVISIT FOR negative cases
+such questions for python, always convert to unsigned and then convert the final result 
+to signed if needed. num | ~mask where mask is all 32 1 bit
 
 372: math a^23 = (a^2)^10 * a^3
 
@@ -152,6 +170,7 @@ binary search for find the bar and sort all the candidates
 Revisit, can do better than answer
 
 376: simple greedy logic, first pair can be decreasing or increasing
+REVISIT
 
 426: prepend to cdl. what updates. 
 new head: prev, next
@@ -160,19 +179,25 @@ cur tail: next
 
 428: didn't figure out convert to BT algorithm
 See my clever serde algorithm. put "#" to mark the end
+Or two list as serialization, one to keep root value, 
+another to keep branch factor
+REVISIT
 
 431: good, not to difficult, careful
 
 432: why can do linear. Incre/Decre by 1, if the update can be anything. Can't do linear
 last_idx and first_idx map to mark the division
+Similar to LFU, but an extension of LFU. LFU only do incr by 1
 
 433: bfs needs visited state, can reuse the bank variable
+similar to word ladder
 
 434: like battleship
 
 435: sort and check end boundary, keep smaller boundary
 
 436: sorting only, boring
+Update, should sort start and end separately, this will utilize two pointer
 
 437: check at each node when recur called, check how many path at the current recur node.
 Keep current path sum and the counter of all paths from root index by sum
@@ -181,10 +206,20 @@ Good
 438: Sliding window
 similar to min window containing all characters
 
-439: t/f as leaf
+439: REVISIT
+Two approach: Pre-order parsing recursion versus polish notation evaluation
+t/f as leaf
+Another approach is to treat this as polish notation.
+Reverse polish is easy, for polish we just need to traverse reversely.
+
+Follow up: can we do bt deser using the same reverse traverse stack approach.
+The serialization representation is always full (either leaf or two children)
+And we have a way to differentiate leaf (or empty node ) vs internal 
+Yes we can
 
 440: similar to 386? But cannot enumerate the first K elements. Trick, count number of nodes
 in a "complete" tree
+REVISIT
 
 441: math -b + sqrt(delta) / 2a
 
@@ -251,6 +286,7 @@ If a string does not have pattern, and s+s[1:-1] has s as substring, prove by co
 
 the substring span S and S by length L1 and L2. 
 Suppose s[:L1] is seg1, then s[L1:] must also start with seg1, since S[L1:] match with starting of the second copy of S
+keep induction on this logic and you can find the pattern should be seg1\
 
 KMP approach:         return p_len > 0 and len(s) % (len(s) - p_len) == 0
 
