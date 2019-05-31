@@ -26,20 +26,21 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
+        # The third return value is None if tree is invalid
         self.max_v = 0
         def recur(root):
             if not root:
-                return None, None, None, 0
+                return None, None, 0
             
-            left, left_min, left_max, left_c = recur(root.left)
-            right, right_min, right_max, right_c = recur(root.right)
+            left_min, left_max, left_c = recur(root.left)
+            right_min, right_max, right_c = recur(root.right)
 
-            if left == root.left and (left_max == None or left_max < root.val) and \
-                right == root.right and (right_min == None or root.val < right_min):
+            if left_c != None and (left_max == None or left_max < root.val) and \
+                right_c != None and (right_min == None or root.val < right_min):
                     self.max_v = max(self.max_v, 1 + left_c + right_c)
-                    return root, smaller(root.val, left_min), bigger(root.val, right_max), 1 + left_c + right_c
+                    return smaller(root.val, left_min), bigger(root.val, right_max), 1 + left_c + right_c
             else:
-                return None, None, None, 0
+                return None, None, None
         
         recur(root)
         return self.max_v
