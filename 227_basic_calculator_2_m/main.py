@@ -1,38 +1,14 @@
-class Tokenizer(object):
-    def __init__(self, s):
-        self.s = s.replace(" ", "")
-        self.i = 0
-
-    def nextToken(self):
-        if self.i == len(self.s):
-            return None
-
-        sign = 1
-        cur = self.i
-        
-        num = 0
-        while cur < len(self.s) and self.s[cur].isdigit():
-            num = num * 10 + int(self.s[cur])
-            cur += 1
-        
-        if cur > self.i:
-            self.i = cur
-            return sign * num
-        else:
-            ret = self.s[self.i]
-            self.i += 1
-            return ret
-            
-        
+import re
 class Solution(object):
     def calculate(self, s):
         """
         :type s: str
         :rtype: int
         """
-        tokenizer = Tokenizer(s)
-        operands = []
-        operators = []
+        s = s.replace(" ", "")
+        tokens = re.split("(\D+)", s)
+
+        opr_stack, op_stack = [], []
 
         opt_map = {
             "+": lambda x, y : x + y,
@@ -48,23 +24,23 @@ class Solution(object):
             "/": 1
         }
 
-        def evalOps(op):
-            while operators and (op == None or priority[operators[-1]] >= priority[op]):
-                opt = operators.pop()
-                operands.append(opt_map[opt](operands.pop(), operands.pop()))
+        def eval_op_stack(next_op):
+            while op_stack and (next_op == None or priority[op_stack[-1]] >= priority[next_op]):
+                op = op_stack.pop()
+                opr_stack.append(opt_map[op](opr_stack.pop(), opr_stack.pop()))
+            op_stack.append(next_op)
 
-        while True:
-            token = tokenizer.nextToken()
-            if token == None:
-                break
-            elif isinstance(token, int):
-                operands.append(token)
+
+        for i, t in enumerate(tokens):
+            if i % 2 == 0:
+                opr_stack.append(int(t))
             else:
-                evalOps(token)
-                operators.append(token)
-        
-        # Don't forget the end
-        evalOps(None)
-        return operands[-1]
+                eval_op_stack(t)
+               
+
+        eval_op_stack(None)
+        return opr_stack[-1]
     
 # Change evalOps to take one parameter
+# 
+print Solution().calculate("3/2")
