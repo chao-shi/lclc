@@ -1,3 +1,4 @@
+import collections
 class Solution(object):
     def minTransfers(self, transactions):
         """
@@ -31,6 +32,7 @@ class Solution(object):
         
         bal_cnt = len(non_zero)
         while len(non_zero) > 0:
+            print non_zero
             non_zero = remove_one_zero_clique(non_zero)
             bal_cnt -= 1
         return bal_cnt
@@ -41,3 +43,18 @@ class Solution(object):
 # https://leetcode.com/problems/optimal-account-balancing/discuss/95355/11-liner-9ms-DFS-solution-(detailed-explanation)
 # Greedy DFS
 # start with i, as recur, try to find the first opposite sign number to cancel out nums[i]
+
+# update, this solution is wrong, the below test case does not pass
+# why, finding the min clique for each node may not be the globally optimal. globally we want to minimize the 
+# number of cliques.
+#[50, -40, -10, 40, 10, -25, -25]
+transactions = [
+    [6, 0, 50],
+    [1, 6, 40],
+    [2, 6, 10],
+    [6, 3, 40],
+    [6, 4, 10],
+    [5, 6, 25]
+]
+
+print Solution().minTransfers(transactions)
