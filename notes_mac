@@ -1,10 +1,14 @@
 124: max(0)
+VERY CAREFUL, The current sub tree can always offer to return an None path
+REVISIT
 
 126, 127: BFS with metadata. 
 special case, when begin=end and end not in dictionary.
 target word is on the frontier, but not valid
+126: REVISIT, good to keep cands as BFS frontier
+keeps the mapping between upper level -> list of lower level nodes
 
-128: one side union 
+128: one side union: UF loads once and union later. Can reuse union find for the set operations
 set pop
 
 129: none case inside function
@@ -13,6 +17,14 @@ set pop
 
 141/142: rewrite, condition update to fp and fp.next != None and fp.next.next != None, will never
 quit if there is loop there. Blindless move fp two step inside loop
+Basic structure
+        while fp and fp.next and fp.next.next:
+            fp = fp.next.next
+            sp = sp.next
+            
+            if sp == fp:
+                meet = sp
+                break
 
 143: fp, sp, old approach of moving. 
 sp, start of second half, first half size int(n/2)
@@ -36,45 +48,68 @@ or double map/index map approach
 topo sorting close with no prerequisite element first
 
 Also link removal algorithm, keep degree of prerequisite and map of items depending on it.
-Once remove the element, notify items depending on it to decrese there prerequisite degree
+Once remove the element, notify items depending on it to decrese their prerequisite degree
+Note BFS does not need visited state, because only add once when the prereq count falls to zero.
+
+BFS keeps dependency map (who depend on self) and pre-req count
 
 227: operator stack, priority higher on top, lower priority pops higher
 +/- pops */
+REVISIT. In the end there may still be many operator and operands left. We need to pop them all
 
 228: just a specific case of merge interval, each number n can be thought as [n, n]
 
-229: keep two leading ballots
+229: keep two leading ballots. No need to rank between those two
+I used //, but not necessary here. // means floor division, even for float. 
+(/ is already doing floor division for integers)
 
 230: inorder generator
 
-231: bit oper
+231: bit oper, corner case of num=0
 
 232: upside down function, if stack_pop is empty
 
-233: revisit
+233: revisit, math problem
 
 236: single return, main.py still assume that p/q must be inside tree, only right solution
+UPDATE: To make it easier to understand, return LCA and count, which is number of matches in subtree
+main.py is the best solution. It can short circuit on left tree
 
 239: non-increasing sequence for window
 
 240: stair case new approach, can do linear
 
-241: min solution revisit, index by operators [li, hi] when li == hi, means no operator, takes nums[li]
+241: to parse
+tokens = re.split("(\D)", input)
+nums = map(int, tokens[::2])
+ops = tokens[1::2]
+Then takes index on nums as sub problems
+
 
 307: lazy calling recursion. check rage inside function
 li, hi to li, mid and mid, hi, stop at case when li + 1 = hi
 return self.query_node(root.left, start, min(end, mid)) + self.query_node(root.right, max(start, mid), end)
 
+BIT:
+query just remove last bit 1, how about update
+i += i & (-i) 
+# i & (-i) return the larget 2 power which divides i
+
+
 310: leave cuting algorithm until there is only one or two leaves left, return it
 
 311: smart use of lazy loading and vector linear combination
+REVISIT: A needs preprocessing, B just iterate. But A can be further optimized by lazy loading.
+A columns maybe very full, but it may not needs reading at all. 
 
 312: nums[k] * nums[i-1] * nums[j] for problem i,j k is the last one to pop in the interval. The boundary are guaranteed
 
 314: sorting on x, left tree node may go underneath right tree node, so need depth to help sorting
-BFS is better
+BFS is better, REVISIT
+inside same verticl, first sort by depth, then by left/right
 
 315: Descending sorting is more natual, since all smaller elements are on the right.
+UPDATE: desc or asc doesn't matter
 
 316: beautiful greedy algorithm
 
@@ -83,25 +118,20 @@ it is reachable to one of the origin, in this question, we need to know the dist
 
 So do span on origins one by one
 
-318: revisit, group and multiply by maxlen, don't store each string
+318: revisit, group by mask multiply by maxlen, don't store each string
 
 320: use iteration, don't use bitmap. Three cases
 
 321: The merge is not very efficient. But seems OK
 
-330: keep cap and greedy, cap += num, or put cap + 1 as new value if needed
-a, b merge, each time pick the one with smaller dictionary index and pop the first letter
+330: keep cap and greedy, cap += num, or put cap + 1 as new value if needed.
+Outloop is cap
 
 332: need to pop one ticket every time. sort visit smallest dictionary each time.
 But sort reverse so pop from end
 
 333: Revisit, clean way to write
-recur function will return if left tree is a valid BT. If not return None
-outside recur, we check if returned == root.left
-1. left is valid, equal
-2. left is not valid, not equal
-3. left is empty, always equal.
-customized function to compare None and integer values
+use count = None ? to determine if child tree is valid
 
 334: speical case
 
@@ -459,3 +489,737 @@ Subarray can be done using sliding window
 Approach 2: check if both -1 and +1 positions are all zeros
 
 611: N ^ 2, find i, j, where e_i < e_j, fit e_k with e_k > e_j and e_k < e_i+e_j
+
+
+703: don't forget cut the size of init heap to k
+
+705: open addressing vs chaining
+
+708: solution is not so clean for one pass , needs all corner case handling. 
+Still keep the loop searching for a<=val<=b but we need to early break in case of hitting the edge point.
+This is the most clean solution
+
+710: careful when blacklist is small
+
+694: The idea of framing the island is completely wrong, you may also capture other islands meanwhile.
+
+711: generate all the 8-directional reflection/rotation. Use top left as anchor base with coord of (0, 0)
+Sort all points within each of the 8 sequences. Then we have 8 sorted sequence. Use the lexico first sequence as
+the caconical sequence.
+
+716: ddl and treemap
+
+719: Binary search on max distance
+
+720: Use trie can early terminate 
+
+721: UF
+
+727: size S is n, size T is m
+n ^ 2 is trivial.
+We can improve to n * m * logm
+(preprocess the reverse index map. try each index on S as a start)
+Once we fix the start, we can make the matching as left as possible.
+Further make it DP
+MT[i][j] = min(S[i-1] == T[i-1] ? min(MT[i-1][j-1] + 1:maxint, MT[i-1][j])
+
+731: overlap can not overlap with each other
+For a new booking, find all the overlaps with the each exiting events. 
+Those overlaps should not overlap.
+
+734: use pairset to quick check 
+map(tuple, list)
+and use zip(w1, w2)
+
+735: stack
+
+736 revisit
+
+738: Find the cliff, but we also need to find the first element on the edge of cliff
+342 and 332 case are different.
+4->2 and 3->2 are cliff, but we case 1 we decrement 4, case 2 we need to do on first 3
+
+740: DP, count and sort on key, start from right most element each time pick either:
+Take this item, then check if item on left is item-1, reduce to different sub problems
+
+One array to store count A
+One array to store real value B
+Problem (i) is taking only element in B[:i]
+
+741: 
+Instead of walking from end to beginning, let's reverse the second leg of the path, so we are only considering two paths from the beginning to the end.
+Notice after t steps, each position (r, c) we could be, is on the line r + c = t. So if we have two people at positions (r1, c1) and (r2, c2), then r2 = r1 + c1 - c2. That means the variables r1, c1, c2 uniquely determine 2 people who have walked the same r1 + c1 number of steps. This sets us up for dynamic programming quite nicely.
+
+Very mind twisting, this solution beautifully solves the two path cross problem. The same cherry 
+is resolved at source.
+
+742: Convert to LCA. 
+Track the path stack during pre-order traversal.
+If pop, then update LCA according.
+Push deeper doesn't update the LCA for sure
+
+743: shortest path problem
+
+745:
+Beautiful
+Approach #3: Trie of Suffix Wrapped Words [Accepted]
+Intuition and Algorithm
+
+Consider the word 'apple'. For each suffix of the word, we could insert that suffix, 
+followed by '#', followed by the word, all into the trie.
+
+For example, we will insert '#apple', 'e#apple', 'le#apple', 'ple#apple', 'pple#apple', 
+The addtional adding only goes up linearly
+'apple#apple' into the trie. Then for a query like prefix = "ap", suffix = "le", we can find it by querying our trie for le#ap.
+
+750: stuck in m*n*n solution
+how to improve
+Takes two columns and do linear scan on rows. Keep accu sum of M[r][c1] == M[r][c2] so far
+Heavy and Light Rows
+Heavy rows have more than sqrt(N) elements, too math and tricky
+
+751: Revisit,
+start with first IP, find the max 2^x that divides, then the CIDR prefix is 32 - x
+Careful when the range is too big it crosses the boundary
+
+753: revisit. maybe factorial complexity OK here. BF-DFS does not pass
+
+616, 758: Good, for each substring in s, mark the entire substring as bold if substring in dict.
+Then merge all the bold
+
+
+759:
+1. Skyline
+2. Can use heap to do a merge sort, each merge list contains only the start time. We keep an anchor
+for the last end time, if we see a start time > anchor, we find (anchor, start) as a new interval
+
+761: TODO
+
+765: greedy just works
+
+767: heap on counter and update the counter
+
+769:
+Good thing about this question is we know where the final element will be 
+class Solution(object):
+    def maxChunksToSorted(self, arr):
+        ans = ma = 0
+        for i, x in enumerate(arr):
+            ma = max(ma, x)
+            if ma == i: ans += 1
+        return ans
+
+if bigger value keep seen, extend the right cap. 
+If index resides on right cap, then increment count
+
+768: Follow up, if we don't know where the final element will be, maybe we can sort them first
+If not distinct, then we are in some trouble here
+
+    ans, cur = 0, None
+        for X, Y in zip(counted, sorted(counted)):
+            cur = max(cur, X)
+            if cur == Y:
+                ans += 1
+        return ans
+
+Key idea is for duplicates elements, assign an incremental counter so that it knows where it should land 
+in the sorted sequence
+
+770: Do polynomial operation first and then evaluate the values
+
+774: Binary search
+
+775: No need to calculate the count of all smallers on the right, 
+only need to answer if there is one on the right
+Can do linearly
+
+776, recursive
+root goes to the left split of right subtree or right split of left subtree
+
+777: Quite tricky, my local swap algorithm does not pass case like below 
+where the swap starts backwards
+"XXXXXLXXXX"
+"LXXXXXXXXX"
+x
+What state is invariable after changing
+
+Think about X as space and people between two spaces are able to move left/right to squeeze
+the space or create new gap
+BUT L can only move left and R can only move right
+
+778: Union find like 2-D water volume. Only difference is no need to consider ocean, 
+only lakes here.
+The surrounding is infinite high mountains
+
+
+780: Two-D DP (Recur with memory table)
+One point to notice
+(x, y) has parent of (x-y, y) or (x, y-x)
+Actually only one of them can be valid
+
+How to optimize further?
+Use modulo function will trace all the way to the beginning
+(x, y) where x > y is from (x-y, y)
+But inductively we can say it is from x%y, y
+
+781: More like a counting problem
+4, 4, 4, 4, 4, 4
+We need to take first 5 of value 4, we know there are 5 same colors. The additional 4 implies a different color
+Quick formula
+-v % (k+1) + v
+
+782: Sounds very difficult, how do we generate the next state. take row or column
+NOT a DFS problem, try to find the invariant state
+revisit
+https://leetcode.com/problems/transform-to-chessboard/solution/
+Swapping lines map one type of row/column to another, the total uniqueness of columns/rows
+does not change
+1. First to precheck the count of row/col uniqueness
+2. Takes unique row1 and row2
+3. Why we only need to convert row1 here, then row2 is automatically placed in order?
+   ANS: Column count bounded. If after move row1 into right seq, where row1 is 1, then the 
+   same column on row2 will be 0, thus row2 is put in place as well.
+4. To put row1 in place, just calculate how many 0, 1 are out of places?
+zip(*list)
+
+785: Union find approach.
+Union all the values which neighbors the same node. 
+Check conflict where i and j belongs to same set
+
+787: bellman ford
+Dijkstra algorithm can keep the path count and prune those invalid
+
+788: can be done like the symetric number (8, 1, 0,)
+
+789: very bad question, the ghost can wait at the target.
+
+790: two index state, 
+how to save space. keep only last two value windoes
+Or matrix mul
+
+791: Sort using customized lambda
+REVISIT
+O(N) use count sort, count T and use S to increment the count and put in place
+
+792: Trie approach, not much better in efficiency.
+Trie on S, and each node contains set of strings which shares the common prefix
+
+793: Not to hard. binary search
+li = 5, hi = 5 * K
+we can take li = 1, and hi = K
+complexity is (logK) ** 2
+
+794: check the winner and winner should be one step ahead of the other
+
+795: revisit using two pointers
+keep pivot which are larger than the target
+
+796: Seen in G4G before, check if B is in A+A using KMP and also check if size equal
+(Different from mapping characters to another character problem)
+
+798: Very good question, each element get a sement which is the valid move, get the crossing of all segments
+
+# [3, 0, 4, 1, 2]
+# (0, 3)
+# (-1, -1) 
+# (-2, 2) 
+# (-3, -2)
+# (-4, -2)
+# 
+# 
+# [0, 1, 2, 3, 4].   ans = 3 (-3, 1, -2, 2, 2)
+# [4, 0, 1, 2, 3].           ( 1, 0, -3, 1, 1)
+# [3, 4, 0, 1, 2]            ( 0, 4, -4, 0, 0)
+# 
+# j = A[i]
+# [0, j] is valid range
+# (-i, j - i) 
+
+799: DFS, good question
+Keep current water level for each node
+recur(row, col, volumn):
+    # Try to fill cup
+    # The remain volumn spills to the two cups below it
+
+Issues: Many cups computed more than 1 or twice?
+Complexity T(H) = 2T(H-1) + K
+overall complexity is 2 ** H
+Too much for the input
+
+(Or another analysis using yanghui triangle
+First row each node is recurred 1 time, second row 1, 1 times, third row 1,2,1 times ...)
+Total goes up to 2 ** H
+
+To optimize, don't just call the recursion on two child blindly.
+Do level by level iteration, BFS is better here.
+
+800: For each coordinate find [aa, bb] range
+If the coordinate is alreaday is xx format, then return [xx, xx] range (Only need to check this plane then)
+At most we will check 8 points. At least one point. (4 points or 2 points)
+
+update: can take a bold assumption that each coordinate will takes the closest xx format neighbor
+and combine 3 dimension coordinates
+
+803: a quite generaal problem, needs a reverse union find algorithm
+REVISIT
+
+The problem is about knowing information about the connected components of a graph as we cut vertices. 
+But this is not an online algorithm, it needs to process all the inputs and reversely process the inputs
+
+Get the Union state after all hits, and reversely add back the hits, the delta in the top ceiling component 
+is the same as the bricks that falls down
+
+805:
+ p(A[:i], k, k * target_avg)
+#         p(A[:i-1], k, k * target_avg) or p(A[:i-1], k-1, k * target_avg - A[i])
+        
+#         sum * n * n
+
+809: nothing special here, keep the order of unique chars and the count of chars
+ans += all(c1 >= max(c2, 3) or c1 == c2
+                       for c1, c2 in zip(count, count2))
+
+813: binary search in range of (K * min and K * max)
+How to verify if a target_avg_sum is possible. 
+Very difficult if target_avg_sum is float, Dp does not work here
+
+Change idea:
+seems it is good use exactly K, the more groups, the larger sum
+We can start with N group and merge them to make it K groups
+
+(A0, A1, ... A_n-1) picks two smallest and merge it so the sum is still maximum.
+Then what.
+
+Change idea: DP
+Takes three parameter for subproblem
+(i, j, x), split num[i:j] into x parts. We can say how to pick the last segment.
+Reduce to max(p(i, j', x-1) + avg(j':j))
+
+814: delete recursion function which returns root of tree
+
+815: I was thinking about DP
+# P(dst, b1) = min(pst(dst_1, b1), pst(dst_2, b2) + 1 ....)
+But no clear problem reduction here, the above could end up with loops
+
+shortest path, each bus routine is a complete graph with edge weight 1
+Shortest path problem with weight 1 can always be solved using BFS
+Building the complete graph too expensive? 
+
+Optimize
+(REVIST)
+BFS for bus connection. Pre-calculate the bus connection map (matrix[i][j] = true if some common
+stop between i and j)
+LEVEL by level BFS, board a set of buses at the source and then extend the bus set frontier
+
+816: Use itertools.produce(A, B) to get the cartesan result set
+
+817: Use battleship algorithm to identify components
+
+818: I figured out the drive pass target scenario
+dp[2**k - 1 - t] + k + 1
+But how about never drive pass target?
+min(dp[t], dp[t - 2**(k - 1) + 2**j] + k - 1 + j + 2)
+k-1 times of A and another j times of A, 2 reverse
+the remaining part is the mystery subproblem
+
+820: Similar question 745
+count the length of strings who are not suffix of any other strings
+
+825: Careful, optmize to use count map. So all the same age people can be processed at once
+
+826: sort difficulty and keep map of max profit up to certain level of difficulty
+Don't sort on worker, do binary search
+
+OR 
+sort worker as well and do linear merge
+
+827: Union find problem. 
+Each 0, check adjacent four nodes, add up the component size
+
+828: Character split approach, count each character towards the sum
+
+829: math, sqrt(N)
+
+833: sort and careful to details, keep s_i pointer
+
+834: N^2 trivial
+
+Maybe divide and conquer like the count smaller on right problem
+
+recur(root) return C, S, which is count of nodes in tree and sum of all root-leaf paths
+
+C1, S1 = recur(root.left)
+C2, S2 = recur(root.right)
+
+for n in iter(root.left):
+    res[n] += 2 * C1 + 1 + S1
+
+nlogn, there seems to be an O(n) algorithm, revisit
+
+835: quite unclear description, looks like the overlapping area can only be the four corner 
+areas of A, For each corner of A, check the diagonal corner of B (A is left top, then B is right bottom)
+Use the storage to avoid recomputation
+
+837: probability distribution by round, if value >= K, then next round no draw for it.
+until all values are >= k
+
+We need at least K round (each round draw 1)
+
+How to optmize locally on this idea.
+We can index on the new_prob_map and only do one update per new_prob_map index
+
+838: 9 cases if else conditions
+To make the corner case cleaner, we can apply L at the begining and R at the end.
+Those two does not change.
+
+839: best approach is to use UF to check each pair if they are similar, then join it
+The enumeration of all similar is suboptimal
+
+841: DFS
+
+842: first two elements determines the sequence
+
+843: 
+Revisit
+
+First idea is to use information theory. Use the bit which has least information (most 
+evenly distributed) make a guess
+
+Minmax algorithm (Game theory)
+
+You guess A, if B is the target, you will get the score X.
+
+There are multiple B for the same score.
+
+Each A will end up with a score map with score as key and number of B.
+
+Pick the A to min the max of the map values.
+
+The less the better
+
+844: followup with only extra linear space (Use two pointers and go backwards if needed)
+
+845: Just use inner loop approach. Instead of regular increasing/decreasing inner loop,
+we change it to a mountain inner loop
+
+846: Keep count map and sorted keys of count map
+For each key with count of C, 
+try decrement key+1, key+2 ... key+W C, if can't return False
+Then move to the next smallest key
+
+847: Sounds like hamiltian algorithm, but more difficult than that
+Hamiltian algorithm can be reduced to this problem.
+The same graph, is there a hamiltian path =>
+In the same graph, is the min path size N - 1. (If N-1, guarantee that there is a linear path)
+
+Try to solve in 2**N 
+State P[S][j]
+shortest path ending with j, covering all the points in S.
+
+Similar idea as Hamiltian algorithm
+https://zh.wikipedia.org/zh-cn/%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%BE
+
+DP sequence
+1. Can do incrementally by S size
+2. By incrementing on the mask value. (a subset for sure has smaller mask)
+
+Time complexity should be 2**N * N**2
+
+849: Like domino problem, extracting all 1 indexes into separate array is cleaner
+Don't put people at first and last index, treat corner case specially
+
+850: I thought calculate overlapping area covered by all rectangles. Then easy,
+just Take A ^ B and then (A ^ B) ^ C
+
+The union can be done using inclusion-exclusion alglrithom
+
+There will 2**n overlappings to calculate. Too much
+
+itertools.combination(A, n)
+
+OR
+
+Skyline algorithm
+
+each delta points stores "new" and "to remove" 
+
+We know between each adjacent delta points, what are the set of rectangle indexes.
+Solve the 1-dimensional problem
+(One dimensional problem is merge interval problem)
+
+Even more
+How to optmize the new/remove/query using segment tree
+
+REVISIT
+
+update(s, t, delta), update the range of [s, t) by incrementing delta
+
+851: DFS with memory table
+dfs(root) returns quitest richer people than root
+Check all dfs(nei) and itself (can be equally rich)
+
+853: BF,
+go second by second. Each round, we iterate backwards on the array, to get the position for the
+car in the next second. (take min(next_car_next_round, cur_car_this_round + speed))
+Each round, check how many fleets captured at desitination (still move on after crossing destination)
+
+Optimize:
+Look at cars on your right, what is the first car on your right named A (closest to you) that you are doomed
+to catch up with. Then all cars between you and A will collapose into A. 
+
+However, A will bump into another car which is possible, only increment the counter when you find a car
+which bumps into no car.
+
+Your time to target is dis/v, find the first car on your right with >= of this value
+
+You can avoid floating point caluculation
+
+N** 2 trivial
+
+Subproblem, find the closest value (closest on index) on right which is larger/smaller than you
+
+a stack problem??
+
+You can sort tuple of (dis/v, idx) (to avoid float value, use customized lambda function)
+Go right 
+
+
+position = [10,8,0,5,3], speed = [2,4,1,1,3]
+sort by position
+[0, 3, 5, 8, 10], speed = [1, 3, 1, 4, 2]
+time = [12, 3, 7, 1, 1]
+
+C[0] = none
+C[1] = 2
+C[2] = none
+C[3] = 4
+C[4] = none
+
+854: Sounds difficult when there is duplicates
+Method 1: For each char in A which is wrong in its position, swap the first correct char
+in A to its place.
+
+A: baa
+B can be aab or aba, Which a to swap is tricky.
+
+Revisit 465 account balancing problem
+
+Method 2, BFS with each transformed whole string as state, also need to know what is next char to check
+in each state. 
+
+1. Each level will have the same i (can be proved by induction)
+2. Still needs visited state storage
+For example case of aacc and ccaa
+First level: caac caca
+Second level: ccaa ccaa
+
+855: priority queue
+key is (s, t) and priority is the length
+Seat is to search the highest priority, pop it and insert two sub intervals
+Leave needs to find the interval affected and merge the interval
+We need another treeset to handle the ceiling and flooring
+
+857: P(N, K) problem
+Case 1: Don't pick N-1
+Case 2: Pick N-1 and pay N-1 base salary, problem reduced to find the min quality sum among K-1 in N-1 
+Case 3: Pick N-1 and pay prevailing salary (if possible) reduced to P(N-1,K-1)
+
+Can further optimize using HEAP and greedy, We can determine between 2 and 3 beforehand
+
+861: First the sequence of toggling row or column does not matter. 
+For each cell, it is if the row and if the column it belongs get toggled.
+
+Toggle all row to start with 1, then toggle each column to maximize the count of 1 on each col
+
+862: Similar to 220?
+Regular sliding window with two pointers does not work.
+
+-100, 1, 2, 3, 4, -20, 5, 6, ...14 and K = 8
+will need to go to 14 so that -100 can be popped. Then we still did not capture 1, 2, 3, 4
+When right pointer go to j, -100 needs to be popped.
+
+This kind of question when moving left pointer does not gurantee a direction.
+
+Increasing stack (accu sum with smaller and larger index should pop things out)
+
+863: Find target and mark depth of target and set of nodes on the path to the target.
+Do pre-order traversal for all nodes and keep updating last (deepest) node in the path which is also 
+on the path towards the target.
+
+864: Brute force (Dijkstra) + permutation
+
+Pre-calculate all pairs distances and then do permutations
+
+Each node is represented by (key_state and location_of_interest)
+distance are all precomputed.
+
+866: Important is how to generate palindrome in order
+generate half in length level
+123 will generate 12321 and 123321
+
+870: Easy to notice that the sequence of B is not important
+
+871: First thought, similar to frog jump stone problem. Each state is marked as (station_i, fuel)
+If this is possible to reach station_i with fuel ending in tank
+
+To convert it slightly. Use max_fuel[i] to store max_fuel we can have at station i
+
+But this only solve the problem of T/F, not minimum step to reach destination
+
+See solution
+
+Let's determine dp[i], the farthest location we can get to using EXACTLY i refueling stops. 
+This is motivated by the fact that we want the smallest i for which dp[i] >= target.
+
+we know dp[i] = K, how to get dp[i+1], we can stop one more top between [0, K]
+But the problem we need to make sure that stop is not stopped before in dp[i]
+
+The real nature of the problem is P(i, j) which is max distance by stopping i times
+using stations S[:j], what is the max distance.
+
+P(i, j)  
+
+if P(i-1, j-1) >= stations[j], then P(i, j) can be max with P(i-1, j-1) + capacity[j]
+
+N^2 states and each state only constant operation
+
+To clean up the code, we keep the dp vector and update the vector with help of each station
+
+APP2:
+Greedy with retrospective. 
+
+When driving past a gas station, let's remember the amount of fuel it contained. We don't need to decide yet whether to fuel up here or not - for example, there could be a bigger gas station up ahead that we would rather refuel at.
+
+When we run out of fuel before reaching the next station, we'll retroactively fuel up: greedily choosing the largest gas stations first.
+
+This is guaranteed to succeed because we drive the largest distance possible before each refueling stop, and therefore have the largest choice of gas stations to (retroactively) stop at.
+
+873: DP with last two elements as state
+
+875: Binary search for K on range of (1, MAX)
+
+879: Just 3-D DP
+
+880: tokenize to [seg1, d1, seg2, d2 ... first]
+Keep track of the total length now, substract and then divide.
+Can do char by char. 
+Get the total length first and then iterate reversely
+
+881: just sort and two pointers
+
+885: spiral pattern, 1, 1, 2, 2, 3, 3, ....
+
+886: No need to mark visited, since the one already colored stop automatically
+
+887: P(K, D) using K eggs to verify D candidates
+Base case K = 1, then return D (verify from low to high)
+Or D <= 2, having more eggs does not help
+Otherwise, split D into half and try one egg at the half.
+
+0, 1, 2, 3, 4 and K eggs
+
+Where do we try 
+If we try at 2, 
+2 breaks, sub problem is P(K-1, 1)
+2 does not, sub problem is P(K, 2)
+
+If we try at 3,
+we have a much worse problem which is P(K-1, 2), worst than both problem above.
+So for even we should drop at the smaller middle
+
+Above is wrong, the greedy assumption that the split always work is wrong. 
+We should seach for split
+
+0, 1, 2 ... N with K egges
+
+drop at X
+X breaks: P(K-1, X-1)
+X doesn't: P(K, N - X)
+
+How to find X is the optimization focus
+
+889: Unique very important character here
+recur(i1, i2) where i1 and i2 are pointers on pre-order and post-order
+return root node and new pointer (or pointer shift)
+Base case is where pre_order[i1] == post_order[i2]
+Root [L] [R]
+[L] [R] Root
+If [R] is empty, then this approach can get confused
+
+INSTEAD, input i1, j1, i2, j2
+Use pre[i1+1] to find the split of left/right tree
+
+890: same as 205
+
+892: check neighbor height
+
+895: 
+Very good question
+heap with [cnt, last_ts, val, status]
+Map of value to list of ts
+1. push will append to the list of ts
+remove one from heap (mark status as -1) and push new one into heap
+
+2. pop will pop from heap and then use the val to locate the list of ts and pop the last ts
+
+Problem is that there can be too many tombstones
+
+Can we optimize like the incr/decr 1 data structure
+DDL with (idx, ts, val)
+idx is the index of the same value inserted
+ts is global timestamp inserted.
+
+We also need the anchor for first element in each segments with the same idx
+
+One map mapping value to list of nodes in DDL.
+push will append to the list and based on the previous last element in the list, 
+we can find the new insertion point in DDL
+
+3. Stack of stacks 
+This question is a little easier than all one operations, since we don't need to decrement the value by 1
+Basically a simplied version of approach two removing the anchor
+stack[f] will never become empty until stack[f+1] is empty
+
+
+898: OR of subarray is similar to sum of subarray
+OR(A[i:j]) = OR(A[:j]) | OR(A[:i])
+
+N^2 is trivial
+
+When iterating at i, we can keep a set of all accum OR seen before i,
+Since there are at most 2^32 such values, this solution is not N^2, it
+is N * W
+
+(The solution suggest it is N * logW, maybe it is right, needs to prove)
+
+899: Math problem , if k = 1 only rotation, K > 1, then any permutation is possible
+
+For any String you can move any char to anywhere if you can swap adjacent characters
+For any String xxx[ab]xxx you can always do
+
+xxx[ab]xxx
+[ab]xxxxxx
+xxxxxx[ba]
+xxx[ba]xxx
+
+901: decreasing stack
+
+902: counting digit by digit
+
+903: I know DP here, but how
+very difficult DP
+https://leetcode.com/problems/valid-permutations-for-di-sequence/discuss/168278/C%2B%2BJavaPython-DP-Solution-O(N2)
+
+904: sliding window with at most two distinct char
+
+906: square root palindrome generation and then check if square is palindrome
+
+907: stack of increasing elements
+
+910: Have seen it before
+Take symmetric into consideration. First smallest element always +K,
+-K will never creates a smaller candidates
+then the question is whether stay the same or goes down 2 * K
+The greedy theory is half of the array +K and the other half -K
+
+911: boring question, can use segment tree or just pre-compute and binary search
