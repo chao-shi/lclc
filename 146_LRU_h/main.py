@@ -39,7 +39,6 @@ class LRUCache(object):
         """
         self.del_val(key)
         self.put_new_val(key, value)
-        self.adjust()
     
     def del_val(self, key):
         if key in self.hm:
@@ -55,14 +54,12 @@ class LRUCache(object):
         self.tail.prev, node.prev = node, p
         self.hm[key] = node
         self.cache_size += 1
-        
-    def adjust(self):
+
         if self.cache_size > self.capacity:
             node = self.head.next
             key = node.key
-            self.head.next, node.next.prev = node.next, self.head
-            del self.hm[key]
-            self.cache_size -= 1
+            self.del_val(key)
+
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
