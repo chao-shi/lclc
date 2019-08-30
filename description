@@ -1,0 +1,540 @@
+733
+An image is represented by a 2-D array of integers, each integer representing the pixel value of the image (from 0 to 65535).
+
+Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, "flood fill" the image.
+
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+
+At the end, return the modified image.
+
+Example 1:
+Input: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+Explanation: 
+From the center of the image (with position (sr, sc) = (1, 1)), all pixels connected 
+by a path of the same color as the starting pixel are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected
+to the starting pixel.
+Note:
+
+The length of image and image[0] will be in the range [1, 50].
+The given starting pixel will satisfy 0 <= sr < image.length and 0 <= sc < image[0].length.
+The value of each color in image[i][j] and newColor will be an integer in [0, 65535].
+
+734
+Given two sentences words1, words2 (each represented as an array of strings), and a list of similar word pairs pairs, determine if two sentences are similar.
+
+For example, "great acting skills" and "fine drama talent" are similar, if the similar word pairs are pairs = [["great", "fine"], ["acting","drama"], ["skills","talent"]].
+
+Note that the similarity relation is not transitive. For example, if "great" and "fine" are similar, and "fine" and "good" are similar, "great" and "good" are not necessarily similar.
+
+However, similarity is symmetric. For example, "great" and "fine" being similar is the same as "fine" and "great" being similar.
+
+Also, a word is always similar with itself. For example, the sentences words1 = ["great"], words2 = ["great"], pairs = [] are similar, even though there are no specified similar word pairs.
+
+Finally, sentences can only be similar if they have the same number of words. So a sentence like words1 = ["great"] can never be similar to words2 = ["doubleplus","good"].
+
+Note:
+
+The length of words1 and words2 will not exceed 1000.
+The length of pairs will not exceed 2000.
+The length of each pairs[i] will be 2.
+The length of each words[i] and pairs[i][j] will be in the range [1, 20].
+
+
+735
+
+We are given an array asteroids of integers representing asteroids in a row.
+
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+
+Example 1:
+Input: 
+asteroids = [5, 10, -5]
+Output: [5, 10]
+Explanation: 
+The 10 and -5 collide resulting in 10.  The 5 and 10 never collide.
+Example 2:
+Input: 
+asteroids = [8, -8]
+Output: []
+Explanation: 
+The 8 and -8 collide exploding each other.
+Example 3:
+Input: 
+asteroids = [10, 2, -5]
+Output: [10]
+Explanation: 
+The 2 and -5 collide resulting in -5.  The 10 and -5 collide resulting in 10.
+Example 4:
+Input: 
+asteroids = [-2, -1, 1, 2]
+Output: [-2, -1, 1, 2]
+Explanation: 
+The -2 and -1 are moving left, while the 1 and 2 are moving right.
+Asteroids moving the same direction never meet, so no asteroids will meet each other.
+Note:
+
+The length of asteroids will be at most 10000.
+Each asteroid will be a non-zero integer in the range [-1000, 1000]..
+
+736
+You are given a string expression representing a Lisp-like expression to return the integer value of.
+
+The syntax for these expressions is given as follows.
+
+An expression is either an integer, a let-expression, an add-expression, a mult-expression, or an assigned variable. Expressions always evaluate to a single integer.
+(An integer could be positive or negative.)
+A let-expression takes the form (let v1 e1 v2 e2 ... vn en expr), where let is always the string "let", then there are 1 or more pairs of alternating variables and expressions, meaning that the first variable v1 is assigned the value of the expression e1, the second variable v2 is assigned the value of the expression e2, and so on sequentially; and then the value of this let-expression is the value of the expression expr.
+An add-expression takes the form (add e1 e2) where add is always the string "add", there are always two expressions e1, e2, and this expression evaluates to the addition of the evaluation of e1 and the evaluation of e2.
+A mult-expression takes the form (mult e1 e2) where mult is always the string "mult", there are always two expressions e1, e2, and this expression evaluates to the multiplication of the evaluation of e1 and the evaluation of e2.
+For the purposes of this question, we will use a smaller subset of variable names. A variable starts with a lowercase letter, then zero or more lowercase letters or digits. Additionally for your convenience, the names "add", "let", or "mult" are protected and will never be used as variable names.
+Finally, there is the concept of scope. When an expression of a variable name is evaluated, within the context of that evaluation, the innermost scope (in terms of parentheses) is checked first for the value of that variable, and then outer scopes are checked sequentially. It is guaranteed that every expression is legal. Please see the examples for more details on scope.
+Evaluation Examples:
+Input: (add 1 2)
+Output: 3
+
+Input: (mult 3 (add 2 3))
+Output: 15
+
+Input: (let x 2 (mult x 5))
+Output: 10
+
+Input: (let x 2 (mult x (let x 3 y 4 (add x y))))
+Output: 14
+Explanation: In the expression (add x y), when checking for the value of the variable x,
+we check from the innermost scope to the outermost in the context of the variable we are trying to evaluate.
+Since x = 3 is found first, the value of x is 3.
+
+Input: (let x 3 x 2 x)
+Output: 2
+Explanation: Assignment in let statements is processed sequentially.
+
+Input: (let x 1 y 2 x (add x y) (add x y))
+Output: 5
+Explanation: The first (add x y) evaluates as 3, and is assigned to x.
+The second (add x y) evaluates as 3+2 = 5.
+
+Input: (let x 2 (add (let x 3 (let x 4 x)) x))
+Output: 6
+Explanation: Even though (let x 4 x) has a deeper scope, it is outside the context
+of the final x in the add-expression.  That final x will equal 2.
+
+Input: (let a1 3 b2 (add a1 1) b2) 
+Output 4
+Explanation: Variable names can contain digits after the first character.
+
+Note:
+
+The given string expression is well formatted: There are no leading or trailing spaces, there is only a single space separating different components of the string, and no space between adjacent parentheses. The expression is guaranteed to be legal and evaluate to an integer.
+The length of expression is at most 2000. (It is also non-empty, as that would not be a legal expression.)
+The answer and all intermediate calculations of that answer are guaranteed to fit in a 32-bit integer.
+
+737
+Given two sentences words1, words2 (each represented as an array of strings), and a list of similar word pairs pairs, determine if two sentences are similar.
+
+For example, words1 = ["great", "acting", "skills"] and words2 = ["fine", "drama", "talent"] are similar, if the similar word pairs are pairs = [["great", "good"], ["fine", "good"], ["acting","drama"], ["skills","talent"]].
+
+Note that the similarity relation is transitive. For example, if "great" and "good" are similar, and "fine" and "good" are similar, then "great" and "fine" are similar.
+
+Similarity is also symmetric. For example, "great" and "fine" being similar is the same as "fine" and "great" being similar.
+
+Also, a word is always similar with itself. For example, the sentences words1 = ["great"], words2 = ["great"], pairs = [] are similar, even though there are no specified similar word pairs.
+
+Finally, sentences can only be similar if they have the same number of words. So a sentence like words1 = ["great"] can never be similar to words2 = ["doubleplus","good"].
+
+Note:
+
+The length of words1 and words2 will not exceed 1000.
+The length of pairs will not exceed 2000.
+The length of each pairs[i] will be 2.
+The length of each words[i] and pairs[i][j] will be in the range [1, 20].
+ 
+
+738
+Given a non-negative integer N, find the largest number that is less than or equal to N with monotone increasing digits.
+
+(Recall that an integer has monotone increasing digits if and only if each pair of adjacent digits x and y satisfy x <= y.)
+
+Example 1:
+Input: N = 10
+Output: 9
+Example 2:
+Input: N = 1234
+Output: 1234
+Example 3:
+Input: N = 332
+Output: 299
+
+739
+Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
+
+For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
+
+Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100].
+
+
+740
+Given an array nums of integers, you can perform operations on the array.
+
+In each operation, you pick any nums[i] and delete it to earn nums[i] points. After, you must delete every element equal to nums[i] - 1 or nums[i] + 1.
+
+You start with 0 points. Return the maximum number of points you can earn by applying such operations.
+
+Example 1:
+
+Input: nums = [3, 4, 2]
+Output: 6
+Explanation: 
+Delete 4 to earn 4 points, consequently 3 is also deleted.
+Then, delete 2 to earn 2 points. 6 total points are earned.
+ 
+
+Example 2:
+
+Input: nums = [2, 2, 3, 3, 3, 4]
+Output: 9
+Explanation: 
+Delete 3 to earn 3 points, deleting both 2's and the 4.
+Then, delete 3 again to earn 3 points, and 3 again to earn 3 points.
+9 total points are earned.
+
+741
+In a N x N grid representing a field of cherries, each cell is one of three possible integers.
+
+ 
+
+0 means the cell is empty, so you can pass through;
+1 means the cell contains a cherry, that you can pick up and pass through;
+-1 means the cell contains a thorn that blocks your way.
+ 
+
+Your task is to collect maximum number of cherries possible by following the rules below:
+
+ 
+
+Starting at the position (0, 0) and reaching (N-1, N-1) by moving right or down through valid path cells (cells with value 0 or 1);
+After reaching (N-1, N-1), returning to (0, 0) by moving left or up through valid path cells;
+When passing through a path cell containing a cherry, you pick it up and the cell becomes an empty cell (0);
+If there is no valid path between (0, 0) and (N-1, N-1), then no cherries can be collected.
+ 
+
+ 
+
+Example 1:
+
+Input: grid =
+[[0, 1, -1],
+ [1, 0, -1],
+ [1, 1,  1]]
+Output: 5
+Explanation: 
+The player started at (0, 0) and went down, down, right right to reach (2, 2).
+4 cherries were picked up during this single trip, and the matrix becomes [[0,1,-1],[0,0,-1],[0,0,0]].
+Then, the player went left, up, up, left to return home, picking up one more cherry.
+The total number of cherries picked up is 5, and this is the maximum possible.
+ 
+
+Note:
+
+grid is an N by N 2D array, with 1 <= N <= 50.
+Each grid[i][j] is an integer in the set {-1, 0, 1}.
+It is guaranteed that grid[0][0] and grid[N-1][N-1] are not -1.
+
+742
+Given a binary tree where every node has a unique value, and a target key k, find the value of the nearest leaf node to target k in the tree.
+
+Here, nearest to a leaf means the least number of edges travelled on the binary tree to reach any leaf of the tree. Also, a node is called a leaf if it has no children.
+
+In the following examples, the input tree is represented in flattened form row by row. The actual root tree given will be a TreeNode object.
+
+Example 1:
+
+Input:
+root = [1, 3, 2], k = 1
+Diagram of binary tree:
+          1
+         / \
+        3   2
+
+Output: 2 (or 3)
+
+Explanation: Either 2 or 3 is the nearest leaf node to the target of 1.
+Example 2:
+
+Input:
+root = [1], k = 1
+Output: 1
+
+Explanation: The nearest leaf node is the root node itself.
+Example 3:
+
+Input:
+root = [1,2,3,4,null,null,null,5,null,6], k = 2
+Diagram of binary tree:
+             1
+            / \
+           2   3
+          /
+         4
+        /
+       5
+      /
+     6
+
+Output: 3
+Explanation: The leaf node with value 3 (and not the leaf node with value 6) is nearest to the node with value 2.
+Note:
+root represents a binary tree with at least 1 node and at most 1000 nodes.
+Every node has a unique node.val in range [1, 1000].
+There exists some node in the given binary tree for which node.val == k.
+
+
+743
+There are N network nodes, labelled 1 to N.
+
+Given times, a list of travel times as directed edges times[i] = (u, v, w), where u is the source node, v is the target node, and w is the time it takes for a signal to travel from source to target.
+
+Now, we send a signal from a certain node K. How long will it take for all nodes to receive the signal? If it is impossible, return -1.
+
+ 
+
+Example 1:
+
+
+
+Input: times = [[2,1,1],[2,3,1],[3,4,1]], N = 4, K = 2
+Output: 2
+ 
+
+Note:
+
+N will be in the range [1, 100].
+K will be in the range [1, N].
+The length of times will be in the range [1, 6000].
+All edges times[i] = (u, v, w) will have 1 <= u, v <= N and 0 <= w <= 100.
+
+744
+Given a list of sorted characters letters containing only lowercase letters, and given a target letter target, find the smallest element in the list that is larger than the given target.
+
+Letters also wrap around. For example, if the target is target = 'z' and letters = ['a', 'b'], the answer is 'a'.
+
+Examples:
+Input:
+letters = ["c", "f", "j"]
+target = "a"
+Output: "c"
+
+Input:
+letters = ["c", "f", "j"]
+target = "c"
+Output: "f"
+
+Input:
+letters = ["c", "f", "j"]
+target = "d"
+Output: "f"
+
+Input:
+letters = ["c", "f", "j"]
+target = "g"
+Output: "j"
+
+Input:
+letters = ["c", "f", "j"]
+target = "j"
+Output: "c"
+
+Input:
+letters = ["c", "f", "j"]
+target = "k"
+Output: "c"
+Note:
+letters has a length in range [2, 10000].
+letters consists of lowercase letters, and contains at least 2 unique letters.
+target is a lowercase letter.
+
+745
+Given many words, words[i] has weight i.
+
+Design a class WordFilter that supports one function, WordFilter.f(String prefix, String suffix). It will return the word with given prefix and suffix with maximum weight. If no word exists, return -1.
+
+Examples:
+
+Input:
+WordFilter(["apple"])
+WordFilter.f("a", "e") // returns 0
+WordFilter.f("b", "") // returns -1
+ 
+
+Note:
+
+words has length in range [1, 15000].
+For each test case, up to words.length queries WordFilter.f may be made.
+words[i] has length in range [1, 10].
+prefix, suffix have lengths in range [0, 10].
+words[i] and prefix, suffix queries consist of lowercase letters only.
+
+746
+On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).
+
+Once you pay the cost, you can either climb one or two steps. You need to find minimum cost to reach the top of the floor, and you can either start from the step with index 0, or the step with index 1.
+
+Example 1:
+Input: cost = [10, 15, 20]
+Output: 15
+Explanation: Cheapest is start on cost[1], pay that cost and go to the top.
+Example 2:
+Input: cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+Output: 6
+Explanation: Cheapest is start on cost[0], and only step on 1s, skipping cost[3].
+Note:
+cost will have a length in the range [2, 1000].
+Every cost[i] will be an integer in the range [0, 999].
+
+747
+In a given integer array nums, there is always exactly one largest element.
+
+Find whether the largest element in the array is at least twice as much as every other number in the array.
+
+If it is, return the index of the largest element, otherwise return -1.
+
+Example 1:
+
+Input: nums = [3, 6, 1, 0]
+Output: 1
+Explanation: 6 is the largest integer, and for every other number in the array x,
+6 is more than twice as big as x.  The index of value 6 is 1, so we return 1.
+ 
+
+Example 2:
+
+Input: nums = [1, 2, 3, 4]
+Output: -1
+Explanation: 4 isn't at least as big as twice the value of 3, so we return -1.
+ 
+
+Note:
+
+nums will have a length in the range [1, 50].
+Every nums[i] will be an integer in the range [0, 99].
+ 
+748
+Find the minimum length word from a given dictionary words, which has all the letters from the string licensePlate. Such a word is said to complete the given string licensePlate
+
+Here, for letters we ignore case. For example, "P" on the licensePlate still matches "p" on the word.
+
+It is guaranteed an answer exists. If there are multiple answers, return the one that occurs first in the array.
+
+The license plate might have the same letter occurring multiple times. For example, given a licensePlate of "PP", the word "pair" does not complete the licensePlate, but the word "supper" does.
+
+Example 1:
+Input: licensePlate = "1s3 PSt", words = ["step", "steps", "stripe", "stepple"]
+Output: "steps"
+Explanation: The smallest length word that contains the letters "S", "P", "S", and "T".
+Note that the answer is not "step", because the letter "s" must occur in the word twice.
+Also note that we ignored case for the purposes of comparing whether a letter exists in the word.
+Example 2:
+Input: licensePlate = "1s3 456", words = ["looks", "pest", "stew", "show"]
+Output: "pest"
+Explanation: There are 3 smallest length words that contains the letters "s".
+We return the one that occurred first.
+Note:
+licensePlate will be a string with length in range [1, 7].
+licensePlate will contain digits, spaces, or letters (uppercase or lowercase).
+words will have a length in the range [10, 1000].
+Every words[i] will consist of lowercase letters, and have length in range [1, 15].
+
+749
+A virus is spreading rapidly, and your task is to quarantine the infected area by installing walls.
+
+The world is modeled as a 2-D array of cells, where 0 represents uninfected cells, and 1 represents cells contaminated with the virus. A wall (and only one wall) can be installed between any two 4-directionally adjacent cells, on the shared boundary.
+
+Every night, the virus spreads to all neighboring cells in all four directions unless blocked by a wall. Resources are limited. Each day, you can install walls around only one region -- the affected area (continuous block of infected cells) that threatens the most uninfected cells the following night. There will never be a tie.
+
+Can you save the day? If so, what is the number of walls required? If not, and the world becomes fully infected, return the number of walls used.
+
+Example 1:
+Input: grid = 
+[[0,1,0,0,0,0,0,1],
+ [0,1,0,0,0,0,0,1],
+ [0,0,0,0,0,0,0,1],
+ [0,0,0,0,0,0,0,0]]
+Output: 10
+Explanation:
+There are 2 contaminated regions.
+On the first day, add 5 walls to quarantine the viral region on the left. The board after the virus spreads is:
+
+[[0,1,0,0,0,0,1,1],
+ [0,1,0,0,0,0,1,1],
+ [0,0,0,0,0,0,1,1],
+ [0,0,0,0,0,0,0,1]]
+
+On the second day, add 5 walls to quarantine the viral region on the right. The virus is fully contained.
+Example 2:
+Input: grid = 
+[[1,1,1],
+ [1,0,1],
+ [1,1,1]]
+Output: 4
+Explanation: Even though there is only one cell saved, there are 4 walls built.
+Notice that walls are only built on the shared boundary of two different cells.
+Example 3:
+Input: grid = 
+[[1,1,1,0,0,0,0,0,0],
+ [1,0,1,0,1,1,1,1,1],
+ [1,1,1,0,0,0,0,0,0]]
+Output: 13
+Explanation: The region on the left only builds two new walls.
+Note:
+The number of rows and columns of grid will each be in the range [1, 50].
+Each grid[i][j] will be either 0 or 1.
+Throughout the described process, there is always a contiguous viral region that will infect strictly more uncontaminated squares in the next round.
+
+750
+Given a grid where each entry is only 0 or 1, find the number of corner rectangles.
+
+A corner rectangle is 4 distinct 1s on the grid that form an axis-aligned rectangle. Note that only the corners need to have the value 1. Also, all four 1s used must be distinct.
+
+ 
+
+Example 1:
+
+Input: grid = 
+[[1, 0, 0, 1, 0],
+ [0, 0, 1, 0, 1],
+ [0, 0, 0, 1, 0],
+ [1, 0, 1, 0, 1]]
+Output: 1
+Explanation: There is only one corner rectangle, with corners grid[1][2], grid[1][4], grid[3][2], grid[3][4].
+ 
+
+Example 2:
+
+Input: grid = 
+[[1, 1, 1],
+ [1, 1, 1],
+ [1, 1, 1]]
+Output: 9
+Explanation: There are four 2x2 rectangles, four 2x3 and 3x2 rectangles, and one 3x3 rectangle.
+ 
+
+Example 3:
+
+Input: grid = 
+[[1, 1, 1, 1]]
+Output: 0
+Explanation: Rectangles must have four distinct corners.
+ 
+
+Note:
+
+The number of rows and columns of grid will each be in the range [1, 200].
+Each grid[i][j] will be either 0 or 1.
+The number of 1s in the grid will be at most 6000.
+ 
+ 

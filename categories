@@ -1,0 +1,108 @@
+1. State search (DFS/BFS)
+37, 39, 40, 51, 52, 79(remove visited state), 126, 127, 139, 140, 207, 210, 212(remove visited state), 
+216 (put large elements first), 282, 286, 290, 291, 306
+317, 329, 351, 368 (take max set ending with each number), 377 (revisit), 397, 399 (visited does not remove), 
+403, 411(enum and check), 416, 433(similar to word ladder), 472, 473, 494
+542 (BFS vs DP)
+
+Enumeration
+17, 39, 40, 46, 47, 77, 216, 254, 266, 267, 323
+
+
+2. Graph
+207, 210, 261, 269, 310, 332, 444
+
+3. Greedy
+   84, 85, 316, 321, 324, 354, 358, 376, 392 (No DP here for subseq matching)
+   392: followup, 402, 435, 456
+
+4. Bit operation
+   190, 191, 201, 371, 389, 476
+
+5. Windowing
+   3, 30, 76, 159, 239, 295, 325 (no sliding window), 340, 358, 395, 424(just sliding window,
+   but the trick with the segments), 438, 487(keep current segment size and previous one with at most
+   one zero apart)
+   522 (sort by length and check one by one), 567
+   862
+
+
+6. Binary search
+   4, 33, 34, 35, 81, 153, 154, 162, 240, 274, 275, 302, 540
+
+
+
+Math
+60, 204, 233, 238, 248, 258, 292, 319, 400, 600
+
+Arithmatic operations
+2, 12, 13, 29, 43, 66, 67, 150, 166, 224, 227, 369 (find lastnot9 using anchor)
+
+Palindrome
+5, 9, 214, 234, 266, 267, 336
+
+Dirty input
+8, 65, 93, 273
+
+DP
+10, 44, 45, 55, 62, 63, 64, 70, 72, 97, 309, 312, 343 (subproblem or no break)
+375(not sure why take bigger half guess), 494, 518, 576, 583 (LCS)
+
+Two pointers
+1, 11, 15, 16, 18, 259, 263, 264, 313
+
+Parenthesis
+20, 22, 32, 301
+
+System programming
+157, 158
+
+Pigeon hole
+164, 220
+
+Mask code
+49, 249, 288, 290, 291, 318
+
+Skyline and interval
+56, 57, 218, 252, 253, 452
+
+KMP
+214
+
+Smart tricks
+189 (use reverse subfunction)
+205 (double zip)
+229 (Polling)
+277 (Sink)
+363 (Reorg the dimension)
+365 (Water jug and GCD)
+395 (Divide and conquer)
+406
+410
+418
+421
+440 (how to optimize)
+456 MAX on 2
+484
+519
+562 (Like battleship)
+581 increase monotonically, then pop from stack, get LB and similarly RB
+
+Union find
+200, 305, 417
+
+Flyod
+287, 202
+
+Advanced data structure
+307, 308, 461, 527(trie with node storing reference to the leaf)
+
+Tree hard
+314, 331, 336 (Use reverse parent-child link or recur and merge)
+428 (use # marking end), 473 (last_sum and sum_map with count)
+536 (Use ( to move stack and place a node as place holder and use ) to pop)
+572 (Encode and KMP) (Or preprocess the T tree to auto-generate the ID)
+
+Merge sort
+315, 327
+

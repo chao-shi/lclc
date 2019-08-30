@@ -1,3 +1,18 @@
+002: early termination
+
+011: equal case can move either
+
+014: use base string length as str[0]
+
+022: (left)right
+
+023: Java priority queue, takes one parameter (listnode) and comparator
+Python takes the tuple and use natual comparison
+
+027: bubble squeezing
+
+032: both ( and ) go on to stack, first condition is that it is ) now and top of stack is (
+
 037: Backtracking optimization, try smallest candidates set at current stage
 
 038: Use of anchor pointer
@@ -98,6 +113,11 @@ careful of edge cases
 [SIMILAR] Q270, use cap of min_int and max_int
 
 099: inorder and check sudden drop. How swap2 are blindly overwritten
+swap2 is the last element smaller than prev
+swap1 is the first element larger than next
+How to write in Java
+1. Create two class variables (preferred)
+2. Put the result in array list
 
 100: none checking
 
@@ -108,6 +128,9 @@ careful of edge cases
 103: can use two stacks
 
 107: level always right direction, option to put value reverse or not
+
+109: revisit, preprocess length
+double return needed, the solution work around by setting private instance variable
 
 110: squeeze the returned parameter to 1
 
@@ -131,6 +154,8 @@ parent help child set next
 
 123: main.py is optimal and cleanest
 
+124: Cap zero at return level
+
 131: palindrome substring precompute + DP
 132: case empty
 
@@ -139,6 +164,7 @@ parent help child set next
 145: reverse stack approach
 
 146: sub function of del_val and put_val
+Use dummy head and tail, adjust call del_val
 
 148: base case of zero or one node
 split needs to disconnect and break the LL
@@ -173,6 +199,12 @@ but single node
 Good question, needs revisit
 # Find min value with certain criteria
 rm_ch = min(last_map, key=last_map.get)
+
+How to extend K, we need a priority queue with updatable priority
+Python I know how to do it.
+Java can be similar
+Someone online suggested Fibonacci heap.
+REVISIT
 
 160: trick of restarting from head
 
@@ -223,9 +255,20 @@ state array:
 
 189: rotate mod, need to check if length 0, cannot mod 0
 
+190: unsigned integer, no need to convert to negative
+to negative ~x - 1
+
+199: Start with right recur: no need to overwrite, just append if depth is missing
+REVISIT
+
+207: dfs preq_map
+bfs dep_map, pre_cnt
+
 209: two pointer and sliding window, visit again
 
 211: trie with search part different, recur on all child if ".", else you know where to go
+
+212: use with trie
 
 213: look at the wrong solution. Sub problem should be
 1. Don't rob -1
@@ -250,9 +293,20 @@ stay in the same bucket
 
 If two value diff > t, then it can never be the same bucket.
 
+REVISIT, Many adjacent value gap problem can be solved this way using pigeon hole with good gap
+This question combine this technique with sliding window.
+
+This question is intersting since we only store one value each bucket. If nothing <=t gap found,
+that means each slot can only contain at most one number
+
 221: DP, start from 1, 1
 
 200-225: pretty tough
+
+224: assume to uni-operator
+REVISIT
+important function evalOps(), evaluate everything in stack until reaching (
+also evaluate at the end of formula
 
 245: index list
 
@@ -270,13 +324,17 @@ This will early prune a lot of cases of not satisfying increasing sequence.
 don't forget case of just remain
 revisit
 
-255: left tree parent stack, similar for verifying post-order
+DP: Store everything and check later if follows increasing order
+
+255: left tree parent stack, similar to the in-order stack
 Case when stack top is equal, still pop and max with max_value
+max_popped is similar to the last one in the in-order
 
 260: bit=xor ^ (xor & (xor-1)) extract last bit 1
 
 261: use neighbor map as a dual to store visited. Pop from neighbor if all visited
 if all visited, then neighbor map is all popped and will be empty
+REVISIT
 
 264: i, j, k approach
 
@@ -290,17 +348,23 @@ two approaches, char_cnt or same char insert after
 268: sum or xor trick
 
 269: first diff and topo sort, use precede map
+Careful about two words such as "ab" and "abc", we don't learn anything new here
+REVISIT
 
 270: greate iteration approach using -inf and inf
 Use two variables to store closest right and left parent
+REVISIT
 
 271: use ending special char better than splitting special char
 VERY VERY TRICKY CORNER CASE
 [""] and []
 That's why we use end marker rather than delimiter, The delimiter cannot differentiate 
 those two cases
+REVISIT
 
 272: implement two iterators and do like merge sort
+
+273: Use stringbuilder expand approach
 
 275: mid = 0 case, last good version
 NOTE: The search space is [0, max(cite)]
@@ -340,6 +404,9 @@ know they are duplicated numbers
 291: revisit
 needs two mapping (pattern->word and word->pattern)
 The question ask for bijection
+
+298: REVISIT
+Don't use combine, pass the [start, end] as part of recur
 
 302: use first bad version projection approach
 
@@ -448,6 +515,7 @@ Here we need to limit the number of chars in the window. Try from 1 char to 26 c
 Q3: i direct move
 Q76: i move one by one. However, there is one optimization when sliding window only happen on the filtered indexes
 see sol2
+What is in sliding window.
 Q159: immediate move i
 Q209: move one by one
 Q239: a little different flavor. Not counting bag but descending order in window

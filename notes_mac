@@ -1,3 +1,4 @@
+
 124: max(0)
 VERY CAREFUL, The current sub tree can always offer to return an None path
 REVISIT
@@ -1154,6 +1155,7 @@ Use pre[i1+1] to find the split of left/right tree
 892: check neighbor height
 
 895: 
+REVISIT (LIKE 911)
 Very good question
 heap with [cnt, last_ts, val, status]
 Map of value to list of ts
@@ -1180,8 +1182,16 @@ This question is a little easier than all one operations, since we don't need to
 Basically a simplied version of approach two removing the anchor
 stack[f] will never become empty until stack[f+1] is empty
 
+4. Map and double linked list
+(double link list is (cnt, value))
+However, each cnt will be an entry. (0, E), (1, E) ..... 
+We connect the entries with the same element by another pointer.
+This way helps us when pop the most frequenct element
 
-898: OR of subarray is similar to sum of subarray
+
+898: 
+REVISIT
+OR of subarray is similar to sum of subarray
 OR(A[i:j]) = OR(A[:j]) | OR(A[:i])
 
 N^2 is trivial
@@ -1217,9 +1227,12 @@ https://leetcode.com/problems/valid-permutations-for-di-sequence/discuss/168278/
 907: stack of increasing elements
 
 910: Have seen it before
+Sort first
 Take symmetric into consideration. First smallest element always +K,
 -K will never creates a smaller candidates
 then the question is whether stay the same or goes down 2 * K
 The greedy theory is half of the array +K and the other half -K
 
 911: boring question, can use segment tree or just pre-compute and binary search
+REVISIT: How to optmize the query part (LogN ** 2 or logN)
+https://leetcode.com/problems/online-election/solution/

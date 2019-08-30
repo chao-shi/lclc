@@ -25,3 +25,7 @@ class Solution(object):
 # Keep the current most frequent
 # Why this works?
 # Even though we never update max_f in block 18
+# 
+# The nature of the question is to find max_f
+# we have the option of put a window around max_f elements,
+# If it cannot go any further up, we keep the window size fixed
